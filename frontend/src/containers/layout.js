@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 
 const Layout = (props) => {
   return (
-    <div>
+    <div className="layout">
       <Navbar></Navbar>
-      <Link to="/create_birthday">Create Birthday</Link>
       {props.children}
     </div>
   );

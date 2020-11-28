@@ -1,0 +1,15 @@
+.home {
+    &__bg{
+        height:200px;
+        background:url("../../img/cake.png");
+        background-repeat: no-repeat;
+        background-size: auto 200px;
+    }
+    &__birthdaysList{
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+}

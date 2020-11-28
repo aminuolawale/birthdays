@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { CREATE_BIRTHDAY } from "../graph-ql/mutation";
+import { useMutation } from "@apollo/client";
+import { CREATE_BIRTHDAY } from "../graph-ql/schema";
 import { useForm } from "react-hook-form";
 
 const uploadUrl = "https://api.cloudinary.com/v1_1/sndbxdiscovery/image/upload";

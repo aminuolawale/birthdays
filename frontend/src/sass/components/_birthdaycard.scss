@@ -1,0 +1,28 @@
+.birthdayCard {
+    margin-top: 20px;
+    position:relative;
+    &__text{
+        position:absolute;
+        color:#ffffff;
+        bottom:50px;
+        left:20px;
+        &__main{
+            font-size: $bg-font;
+        }
+    }
+    &>img {
+        height:420px;
+        border-radius: 20px;
+    }
+    &__actions {
+        background:$main-aquamarine;
+        border-radius: 20px;
+        color:#ffffff;
+        height:40px;
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        justify-items: center;
+    }
+   
+}

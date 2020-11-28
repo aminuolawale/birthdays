@@ -18,4 +18,19 @@ const CREATE_BIRTHDAY = gql`
   }
 `;
 
-export { CREATE_BIRTHDAY };
+const GET_BIRTHDAYS = gql`
+  query getBirthdays {
+    allBirthdays {
+      id
+      celebrant
+      date
+      images {
+        file
+        isCover
+        lastUpdated
+      }
+    }
+  }
+`;
+
+export { CREATE_BIRTHDAY, GET_BIRTHDAYS };

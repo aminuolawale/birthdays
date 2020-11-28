@@ -1,0 +1,20 @@
+.navbar {
+    display:flex;
+    align-items: center;
+    justify-content: space-between; 
+    background:$main-aquamarine;
+    height:60px;
+    margin-bottom: 20px;
+    &__header{
+        color:#ffffff;
+    }
+
+    &__links{
+        display:flex;
+        align-items: center;
+        color:#ffffff;
+        &__item{
+            margin:0 10px;
+        }
+    }
+}
