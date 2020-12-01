@@ -3,6 +3,7 @@ import BirthdayCard from "../components/BirthdayCard";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_BIRTHDAYS } from "../graph-ql/schema";
 import { Link } from "react-router-dom";
+
 const Home = () => {
   const { loading, error, data } = useQuery(GET_BIRTHDAYS);
 

@@ -1,40 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_BIRTHDAY } from "../graph-ql/schema";
 import { useForm } from "react-hook-form";
-
-const uploadUrl = "https://api.cloudinary.com/v1_1/sndbxdiscovery/image/upload";
+import useCloudinary from "../hooks/useCloudinary";
 
 const BirthdayForm = () => {
   const { register, handleSubmit } = useForm();
-  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [uploadFile, setUploadFile] = useState(null);
+  const [graphPayload, setGraphPayload] = useState(null);
+  const { secureUrl } = useCloudinary(uploadFile);
 
   const [createBirthday, { loading, error }] = useMutation(CREATE_BIRTHDAY, {
     onCompleted: (data) => console.log("Data from mutation", data),
-    onError: (error) => console.error("Error creating a post", error.message),
+    onError: (error) =>
+      console.error("Error creating a birthday", error.message),
   });
+
   const onSubmit = (data) => {
-    console.log("the data", data);
     const vars = {
-      celebrant: `${data.firstName} ${data.lastName}`,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      nickname: data.nickname ? data.nickname : "",
       date: data.date,
       coverImage: { file: data.coverImage[0], caption: data.coverImageCaption },
     };
-    var cloudinaryPayload = new FormData();
-    cloudinaryPayload.append("file", vars.coverImage.file);
-    cloudinaryPayload.append("upload_preset", "pzpdpnze");
-    fetch(uploadUrl, { method: "POST", body: cloudinaryPayload })
-      .then((res) => res.json())
-      .then((data) => {
-        setCoverImageUrl(data.secure_url);
-        vars["coverImage"]["file"] = data.secure_url;
-        console.log("the vars", vars);
-        createBirthday({
-          variables: vars,
-        });
-      })
-      .catch((err) => console.log(err.message));
+    setUploadFile(vars.coverImage.file);
+    setGraphPayload(vars);
   };
+  useEffect(() => {
+    if (secureUrl) {
+      graphPayload["coverImage"]["file"] = secureUrl;
+      createBirthday({
+        variables: graphPayload,
+      });
+    }
+  }, [secureUrl]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,6 +50,10 @@ const BirthdayForm = () => {
       <div>
         <label htmlFor="lastName">Last Name</label>
         <input type="text" name="lastName" id="lastName" ref={register}></input>
+      </div>
+      <div>
+        <label htmlFor="nickname">Nickname</label>
+        <input type="text" name="nickname" id="nickname" ref={register}></input>
       </div>
       <div>
         <label htmlFor="coverImage">Cover Image</label>

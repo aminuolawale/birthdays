@@ -1,41 +1,12 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from .models import Birthday, ImageModel
-from graphene_file_upload.scalars import Upload
+from .models import Birthday, Picture, Celebrant
+from .types import BirthdayType, PictureType, CelebrantType, ImageRequestType
 
-
-class ImageRequestType(graphene.InputObjectType):
-    """ """
-    name = graphene.String()
-    file = graphene.String(required=True)
-    caption = graphene.String()
-
-
-class DateRequestType(graphene.InputObjectType):
-    """ """
-    day = graphene.Int(required=True)
-    month = graphene.Int(required=True)
-    year = graphene.Int(required=True)
-
-class ImageType(DjangoObjectType):
-    """ """
-    class Meta:
-        model = ImageModel
-        fields = ("id", "is_cover", "name",
-                  "caption", "file", "date_created", "last_updated")
-
-
-class BirthdayType(DjangoObjectType):
-    """ """
-    class Meta:
-        model = Birthday
-        fields = ("id", "celebrant", "images",
-                  "date", "date_created", "last_updated")
-
-  
 
 class BirthdayQuery(graphene.ObjectType):
     """ """
+
     all_birthdays = graphene.List(BirthdayType)
 
     def resolve_all_birthdays(root, info):
@@ -47,19 +18,40 @@ class CreateBirthday(graphene.Mutation):
     """ """
 
     class Arguments:
-        celebrant = graphene.String(required=True)
+        first_name = graphene.String(required=True)
+        last_name = graphene.String(required=True)
+        nickname = graphene.String(required=False)
         cover_image = ImageRequestType()
-        extra_images = graphene.List(graphene.String, required=False)
         date = graphene.String(required=True)
+        extra_images = graphene.List(ImageRequestType, required=False)
+        date_of_birth = graphene.String(required=False)
 
     birthday = graphene.Field(BirthdayType)
 
     @classmethod
-    def mutate(cls, root, info, celebrant, cover_image, date=None, extra_images=[]):
-        birthday = Birthday(
-            celebrant=celebrant, date=date)
+    def mutate(
+        cls,
+        root,
+        info,
+        first_name,
+        last_name,
+        cover_image,
+        date,
+        nickname=None,
+        extra_images=[],
+        date_of_birth=None,
+    ):
+        birthday = Birthday(date=date)
         birthday.save()
-        image = ImageModel(birthday_id=birthday.id,is_cover=True, **cover_image)
+        celebrant = Celebrant(
+            birthday_id=birthday.id,
+            first_name=first_name,
+            last_name=last_name,
+            nickname=nickname,
+            date_of_birth=date_of_birth,
+        )
+        celebrant.save()
+        image = Picture(birthday_id=birthday.id, is_cover=True, **cover_image)
         image.save()
         return CreateBirthday(birthday=birthday)
 
