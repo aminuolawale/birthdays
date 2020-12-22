@@ -24,7 +24,16 @@ class BirthdayType(DjangoObjectType):
 
     class Meta:
         model = Birthday
-        fields = ("id", "celebrant", "images", "date", "date_created", "last_updated")
+        fields = (
+            "id",
+            "celebrant",
+            "images",
+            "user",
+            "creator",
+            "date",
+            "date_created",
+            "last_updated",
+        )
 
 
 class PictureType(DjangoObjectType):

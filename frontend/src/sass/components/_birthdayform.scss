@@ -1,0 +1,34 @@
+.birthdayForm{
+    border: 1px solid black;
+    display:flex;
+    align-items: center;
+    &__form{
+        // border: 1px solid black;
+        width:650px;
+        padding:20px;
+        &__fieldGroup{
+            font-size: $sm-font;
+            display:flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            &>label{
+                margin-bottom: 10px;
+            }
+            &>input{
+                padding:5px;
+                height: 30px;
+                font-size: $md-font;
+            }
+        }
+        &__button{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            &>button{
+                height: 50px;
+                font-size: $md-font;
+                width:200px;
+            }
+        }
+    }
+}

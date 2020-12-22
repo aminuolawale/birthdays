@@ -1,10 +1,21 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField, HStoreField
+from django.contrib.auth import get_user_model
+
+user_model = get_user_model()
 
 
 class Birthday(models.Model):
     """ """
 
+    user = models.ForeignKey(
+        user_model, related_name="birthdays", null=True, on_delete=models.CASCADE
+    )
+    creator = models.ForeignKey(
+        user_model,
+        related_name="created_birthdays",
+        on_delete=models.CASCADE,
+        null=True,
+    )
     date = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -24,7 +35,7 @@ class Celebrant(models.Model):
     )
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=100, default="")
+    nickname = models.CharField(max_length=100, null=True)
     date_of_birth = models.DateTimeField(null=True)
 
     def __str__(self):

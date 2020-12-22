@@ -1,17 +1,10 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from .models import Birthday, Picture, Celebrant
+from graphql_jwt.decorators import login_required
 from .types import BirthdayType, PictureType, CelebrantType, ImageRequestType
-
-
-class BirthdayQuery(graphene.ObjectType):
-    """ """
-
-    all_birthdays = graphene.List(BirthdayType)
-
-    def resolve_all_birthdays(root, info):
-        """ """
-        return Birthday.objects.all()
+from datetime import datetime
+from django.contrib.auth import get_user_model
 
 
 class CreateBirthday(graphene.Mutation):
@@ -29,6 +22,7 @@ class CreateBirthday(graphene.Mutation):
     birthday = graphene.Field(BirthdayType)
 
     @classmethod
+    @login_required
     def mutate(
         cls,
         root,
@@ -41,7 +35,9 @@ class CreateBirthday(graphene.Mutation):
         extra_images=[],
         date_of_birth=None,
     ):
-        birthday = Birthday(date=date)
+        date = datetime.strptime(date, "%Y-%m-%d")
+        user = info.context.user
+        birthday = Birthday(date=date, creator=user)
         birthday.save()
         celebrant = Celebrant(
             birthday_id=birthday.id,
@@ -56,4 +52,36 @@ class CreateBirthday(graphene.Mutation):
         return CreateBirthday(birthday=birthday)
 
 
-# schema = graphene.Schema(query=Query)
+class LinkBirthdayToUser(graphene.Mutation):
+    """ """
+
+    class Arguments:
+        birthday_id = graphene.String(required=True)
+        user_id = graphene.String(required=True)
+
+    birthday = graphene.Field(BirthdayType)
+    ok = graphene.String()
+    errors = graphene.List(graphene.String)
+
+    @classmethod
+    @login_required
+    def mutate(
+        cls,
+        root,
+        info,
+        birthday_id,
+        user_id,
+    ):
+        birthday = Birthday.objects.get(id=birthday_id)
+        creator = birthday.creator
+        user = info.context.user
+        if user != creator:
+            return LinkBirthdayToUser(
+                birthday=None,
+                ok=False,
+                errors=[{"message": "You are not authorized to update this object"}],
+            )
+        birthday_user = get_user_model().objects.get(id=user_id)
+        birthday.user = birthday_user
+        birthday.save()
+        return LinkBirthdayToUser(birthday=birthday)
