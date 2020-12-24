@@ -1,0 +1,31 @@
+.form {
+    width: 600px;
+    margin:auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 20px rgba(#000, .1);
+    &__fieldGroup{
+        font-size: $sm-font;
+        display:flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+        &>label{
+            margin-bottom: 5px;
+        }
+        &>input{
+            font-size: inherit;
+            padding:10px;
+            border:1px solid $main-dark;
+            &:focus{
+                border:2px solid rgba($main-wine, .7);
+                outline:none;
+            }
+        }
+    }
+    &__button{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

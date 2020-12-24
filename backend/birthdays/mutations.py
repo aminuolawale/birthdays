@@ -5,6 +5,7 @@ from graphql_jwt.decorators import login_required
 from .types import BirthdayType, PictureType, CelebrantType, ImageRequestType
 from datetime import datetime
 from django.contrib.auth import get_user_model
+from core.tasks import send_linked_birthday_email
 
 
 class CreateBirthday(graphene.Mutation):
@@ -81,7 +82,43 @@ class LinkBirthdayToUser(graphene.Mutation):
                 ok=False,
                 errors=[{"message": "You are not authorized to update this object"}],
             )
+        if birthday.user and str(birthday.user.id) == user_id:
+            return LinkBirthdayToUser(birthday=birthday, ok=True, errors=[])
         birthday_user = get_user_model().objects.get(id=user_id)
         birthday.user = birthday_user
         birthday.save()
+        send_linked_birthday_email.delay(birthday.id)
         return LinkBirthdayToUser(birthday=birthday)
+
+
+class UnlinkBirthday(graphene.Mutation):
+    """ """
+
+    class Arguments:
+        birthday_id = graphene.String(required=True)
+
+    birthday = graphene.Field(BirthdayType)
+    ok = graphene.String()
+    errors = graphene.List(graphene.String)
+
+    @classmethod
+    @login_required
+    def mutate(
+        cls,
+        root,
+        info,
+        birthday_id,
+    ):
+        birthday = Birthday.objects.get(id=birthday_id)
+        creator = birthday.creator
+        user = info.context.user
+        print(creator, user)
+        if user != creator:
+            return LinkBirthdayToUser(
+                birthday=None,
+                ok=False,
+                errors=[{"message": "You are not authorized to update this object"}],
+            )
+        birthday.user = None
+        birthday.save()
+        return UnlinkBirthday(birthday=birthday, ok=True, errors=[])

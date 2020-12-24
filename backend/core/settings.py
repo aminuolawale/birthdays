@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 import environ
 import cloudinary
@@ -139,7 +139,7 @@ GRAPHENE = {
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     # optional
-    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
     "JWT_EXPIRATION_DELTA": timedelta(hours=1),
 }
 
@@ -163,3 +163,15 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = "users.User"
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = "riceevng@gmail.com"
+EMAIL_HOST_PASSWORD = "Comaberenices8#"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+
+DJANGO_SETTINGS_MODULE = "core.settings"

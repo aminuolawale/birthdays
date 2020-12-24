@@ -1,0 +1,10 @@
+{% block subject %} Birthday Event! {% endblock %}
+{% block html %}
+  <h1>Hi {{username}},</h1>
+  <p>
+    Your friend {{creator_username}} just created a birthday event for you. Click here to view it.
+  </p>
+  <p>
+    Thanks, you're awesome!
+  </p>
+{% endblock %}

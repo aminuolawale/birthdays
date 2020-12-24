@@ -13,8 +13,16 @@ a {
     color: inherit;
 }
 
+a:hover {
+    cursor: pointer;
+    color: darken($main-wine, 20%);
+}
+
 body {
     font-family: $quicksand-font;
+    background-color: $main-cream;
+    color: $main-dark;
+
 }
 
 img {

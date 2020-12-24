@@ -15,3 +15,14 @@ class UsersQuery(graphene.ObjectType):
     def resolve_all_users(root, info):
         """ """
         return User.objects.all()
+
+
+class MeQuery(graphene.ObjectType):
+    """ """
+
+    user = graphene.Field(UserType)
+
+    # @login_required
+    def resolve_user(root, info):
+        """ """
+        return info.context.user

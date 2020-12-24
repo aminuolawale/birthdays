@@ -1,15 +1,37 @@
 .home {
-    &__bg{
-        height:200px;
-        background:url("../../img/cake.png");
-        background-repeat: no-repeat;
-        background-size: auto 200px;
-    }
-    &__birthdaysList{
-        display:grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 20px;
-        align-items: center;
-        justify-content: center;
-    }
-}
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    position: relative;
+   &__hero {
+       height: 70vh;
+       display:flex;
+       align-items: center;
+       z-index: 2;
+       &__content{
+           &__mainText{
+               font-size: $xlg-font;
+               margin-bottom: 80px;
+           }
+       }
+   }
+   &__ribbons{
+       &--0{
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            right:0;
+            object-fit: contain;
+            transform: rotate(0deg);
+            opacity: .99;
+       }
+       &--1{
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            right:50%;
+            top:50%;
+            object-fit: contain;
+            transform: rotate(130deg)
+        }
+   }
+}   

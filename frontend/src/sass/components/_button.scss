@@ -1,0 +1,30 @@
+.button{
+    background:$main-wine;
+    color: $main-cream;
+    &:hover{
+        cursor:pointer;
+        background:darken($main-wine, 5%);
+    }
+    &--xsm{
+        font-size: $xsm-font;
+    }
+    &--sm{
+        font-size: $sm-font;
+    }
+    &--md{
+        font-size: $md-font;
+        padding: 15px 30px;
+        border-radius: calc((#{$md-font} + 30px)/2);
+    }
+    &--lg {
+        font-size: $lg-font;
+        padding: 20px 40px;
+        border-radius: calc((#{$lg-font} + 40px)/2);
+
+    }
+    &--xlg {
+        font-size: $xlg-font;
+    }
+}
+
+
