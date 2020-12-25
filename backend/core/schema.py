@@ -3,7 +3,13 @@ import graphql_jwt
 from graphene_django import DjangoObjectType
 from users.mutations import CreateUser, UpdateUser
 from users.queries import UsersQuery, MeQuery
-from birthdays.mutations import CreateBirthday, LinkBirthdayToUser, UnlinkBirthday
+from birthdays.mutations import (
+    CreateBirthday,
+    LinkBirthdayToUser,
+    UnlinkBirthday,
+    DeleteBirthday,
+    ToggleBirthdayVisibility,
+)
 from birthdays.queries import BirthdayQuery
 
 
@@ -19,6 +25,8 @@ class Mutation(graphene.ObjectType):
     createBirthday = CreateBirthday.Field()
     linkBirthdayToUser = LinkBirthdayToUser.Field()
     unlinkBirthday = UnlinkBirthday.Field()
+    toggleBirthdayVisibility = ToggleBirthdayVisibility.Field()
+    deleteBirthday = DeleteBirthday.Field()
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()

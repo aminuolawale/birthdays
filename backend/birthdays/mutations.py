@@ -6,6 +6,7 @@ from .types import BirthdayType, PictureType, CelebrantType, ImageRequestType
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from core.tasks import send_linked_birthday_email
+from core.types import ErrorType
 
 
 class CreateBirthday(graphene.Mutation):
@@ -20,7 +21,7 @@ class CreateBirthday(graphene.Mutation):
         extra_images = graphene.List(ImageRequestType, required=False)
         date_of_birth = graphene.String(required=False)
 
-    birthday = graphene.Field(BirthdayType)
+    result = graphene.Field(BirthdayType)
 
     @classmethod
     @login_required
@@ -37,8 +38,8 @@ class CreateBirthday(graphene.Mutation):
         date_of_birth=None,
     ):
         date = datetime.strptime(date, "%Y-%m-%d")
-        user = info.context.user
-        birthday = Birthday(date=date, creator=user)
+        auth_user = info.context.user
+        birthday = Birthday(date=date, creator=auth_user)
         birthday.save()
         celebrant = Celebrant(
             birthday_id=birthday.id,
@@ -50,7 +51,7 @@ class CreateBirthday(graphene.Mutation):
         celebrant.save()
         image = Picture(birthday_id=birthday.id, is_cover=True, **cover_image)
         image.save()
-        return CreateBirthday(birthday=birthday)
+        return CreateBirthday(result=birthday, ok=True, errors=[])
 
 
 class LinkBirthdayToUser(graphene.Mutation):
@@ -60,9 +61,9 @@ class LinkBirthdayToUser(graphene.Mutation):
         birthday_id = graphene.String(required=True)
         user_id = graphene.String(required=True)
 
-    birthday = graphene.Field(BirthdayType)
+    result = graphene.Field(BirthdayType)
     ok = graphene.String()
-    errors = graphene.List(graphene.String)
+    errors = graphene.List(ErrorType)
 
     @classmethod
     @login_required
@@ -73,22 +74,29 @@ class LinkBirthdayToUser(graphene.Mutation):
         birthday_id,
         user_id,
     ):
-        birthday = Birthday.objects.get(id=birthday_id)
-        creator = birthday.creator
-        user = info.context.user
-        if user != creator:
+        try:
+            birthday = Birthday.objects.get(id=birthday_id)
+        except:
             return LinkBirthdayToUser(
-                birthday=None,
+                result=None,
+                ok=False,
+                errors=[{"message": f"No Birthday record found with id {birthday_id}"}],
+            )
+        creator = birthday.creator
+        auth_user = info.context.user
+        if auth_user != creator:
+            return LinkBirthdayToUser(
+                result=None,
                 ok=False,
                 errors=[{"message": "You are not authorized to update this object"}],
             )
         if birthday.user and str(birthday.user.id) == user_id:
-            return LinkBirthdayToUser(birthday=birthday, ok=True, errors=[])
+            return LinkBirthdayToUser(result=birthday, ok=True, errors=[])
         birthday_user = get_user_model().objects.get(id=user_id)
         birthday.user = birthday_user
         birthday.save()
         send_linked_birthday_email.delay(birthday.id)
-        return LinkBirthdayToUser(birthday=birthday)
+        return LinkBirthdayToUser(result=birthday)
 
 
 class UnlinkBirthday(graphene.Mutation):
@@ -97,9 +105,9 @@ class UnlinkBirthday(graphene.Mutation):
     class Arguments:
         birthday_id = graphene.String(required=True)
 
-    birthday = graphene.Field(BirthdayType)
+    result = graphene.Field(BirthdayType)
     ok = graphene.String()
-    errors = graphene.List(graphene.String)
+    errors = graphene.List(ErrorType)
 
     @classmethod
     @login_required
@@ -110,15 +118,127 @@ class UnlinkBirthday(graphene.Mutation):
         birthday_id,
     ):
         birthday = Birthday.objects.get(id=birthday_id)
+        auth_user = info.context.user
         creator = birthday.creator
-        user = info.context.user
-        print(creator, user)
-        if user != creator:
-            return LinkBirthdayToUser(
-                birthday=None,
+        birthday_user = birthday.user
+        if birthday_user:
+            if auth_user != birthday_user:
+                return DeleteBirthday(
+                    result=None,
+                    ok=False,
+                    errors=[
+                        {"message": "You are not authorized to update this object"}
+                    ],
+                )
+        elif auth_user != creator:
+            return DeleteBirthday(
+                result=None,
                 ok=False,
                 errors=[{"message": "You are not authorized to update this object"}],
             )
         birthday.user = None
         birthday.save()
-        return UnlinkBirthday(birthday=birthday, ok=True, errors=[])
+        return UnlinkBirthday(result=birthday, ok=True, errors=[])
+
+
+class ToggleBirthdayVisibility(graphene.Mutation):
+    """ """
+
+    class Arguments:
+        birthday_id = graphene.String(required=True)
+
+    result = graphene.Field(BirthdayType)
+    ok = graphene.String()
+    errors = graphene.List(ErrorType)
+
+    @classmethod
+    @login_required
+    def mutate(
+        cls,
+        root,
+        info,
+        birthday_id,
+    ):
+        try:
+            birthday = Birthday.objects.get(id=birthday_id)
+        except:
+            return ToggleBirthdayVisibility(
+                result=None,
+                ok=False,
+                errors=[
+                    {"message": f"No record found for Birthday with id: {birthday_id}"}
+                ],
+            )
+
+        auth_user = info.context.user
+        creator = birthday.creator
+        birthday_user = birthday.user
+        if birthday_user:
+            if auth_user != birthday_user:
+                return DeleteBirthday(
+                    result=None,
+                    ok=False,
+                    errors=[
+                        {"message": "You are not authorized to update this object"}
+                    ],
+                )
+        elif auth_user != creator:
+            return DeleteBirthday(
+                result=None,
+                ok=False,
+                errors=[{"message": "You are not authorized to update this object"}],
+            )
+        birthday.visible = not birthday.visible
+        birthday.save()
+        return ToggleBirthdayVisibility(result=birthday, ok=True, errors=[])
+
+
+class DeleteBirthday(graphene.Mutation):
+    """ """
+
+    class Arguments:
+        birthday_id = graphene.String(required=True)
+
+    result = graphene.Field(BirthdayType)
+    ok = graphene.String()
+    errors = graphene.List(ErrorType)
+
+    @classmethod
+    @login_required
+    def mutate(
+        cls,
+        root,
+        info,
+        birthday_id,
+    ):
+        try:
+            birthday = Birthday.objects.get(id=birthday_id)
+        except:
+            return DeleteBirthday(
+                result=None,
+                ok=False,
+                errors=[
+                    {"message": f"No record found for Birthday with id: {birthday_id}"}
+                ],
+            )
+
+        auth_user = info.context.user
+        creator = birthday.creator
+        birthday_user = birthday.user
+        if birthday_user:
+            if auth_user != birthday_user:
+                return DeleteBirthday(
+                    result=None,
+                    ok=False,
+                    errors=[
+                        {"message": "You are not authorized to update this object"}
+                    ],
+                )
+        elif auth_user != creator:
+            return DeleteBirthday(
+                result=None,
+                ok=False,
+                errors=[{"message": "You are not authorized to update this object"}],
+            )
+        birthday.delete()
+        return DeleteBirthday(result=None, ok=True, errors=[])

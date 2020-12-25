@@ -1,6 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from .models import Birthday, Picture, Celebrant
+from core.types import response_type_factory
 
 
 class ImageRequestType(graphene.InputObjectType):
@@ -31,6 +32,7 @@ class BirthdayType(DjangoObjectType):
             "user",
             "creator",
             "date",
+            "visible",
             "date_created",
             "last_updated",
         )
@@ -58,3 +60,7 @@ class CelebrantType(DjangoObjectType):
     class Meta:
         model = Celebrant
         fields = ("birthday", "first_name", "last_name", "nickname", "date_of_birth")
+
+
+class BirthdayResponseType(response_type_factory(BirthdayType)):
+    """ """

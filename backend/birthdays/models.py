@@ -17,6 +17,7 @@ class Birthday(models.Model):
         null=True,
     )
     date = models.DateTimeField()
+    visible = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

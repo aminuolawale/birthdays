@@ -14,6 +14,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=2, null=True)
     avatar = models.CharField(max_length=100, null=True)
+    date_of_birth = models.DateTimeField(null=True)
     # date_created = models.DateTimeField(auto_now_add=True)
     # last_updated = models.DateTimeField(auto_now=True)
 

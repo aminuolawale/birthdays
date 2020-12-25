@@ -1,6 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from .models import User
+from core.types import response_type_factory
 
 
 class UserType(DjangoObjectType):
@@ -26,3 +27,7 @@ class UserType(DjangoObjectType):
     def resolve_full_name(self, info):
         """ """
         return f"{self.first_name} {self.last_name}"
+
+
+class UserResponseType(response_type_factory(UserType)):
+    """ """
