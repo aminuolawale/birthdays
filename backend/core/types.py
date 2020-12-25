@@ -15,7 +15,7 @@ def response_type_factory(response_type, many=False):
 
         results = graphene.List(response_type)
         result = graphene.Field(response_type)
-        ok = graphene.String()
+        ok = graphene.Boolean()
         errors = graphene.List(ErrorType)
 
     return ResponseType

@@ -1,6 +1,7 @@
 .button{
     background:$main-wine;
     color: $main-cream;
+    text-align: center;
     &:hover{
         cursor:pointer;
         background:darken($main-wine, 5%);
@@ -10,6 +11,8 @@
     }
     &--sm{
         font-size: $sm-font;
+        padding: 10px 20px;
+        border-radius: calc((#{$md-font} + 20px)/2);
     }
     &--md{
         font-size: $md-font;
@@ -24,6 +27,9 @@
     }
     &--xlg {
         font-size: $xlg-font;
+    }
+    &--expand{
+        width:100%;
     }
 }
 

@@ -5,6 +5,7 @@ from graphql_jwt.decorators import login_required
 from addresses.types import AddressRequestType
 from .signals import user_changed
 from core.types import ErrorType
+import graphql_jwt
 
 
 class CreateUser(graphene.Mutation):
@@ -19,15 +20,21 @@ class CreateUser(graphene.Mutation):
         middle_name = graphene.String(required=False)
         phone = graphene.String(required=False)
 
-    user = graphene.Field(UserType)
-    ok = graphene.String()
+    result = graphene.Field(UserType)
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
     def mutate(cls, root, info, email, first_name, last_name, password):
         user = get_user_model()
+        existing_user = user.objects.filter(email=email)
+        if existing_user.count():
+            print("so here")
+            return CreateUser(
+                result=None, ok=False, errors=[{"message": "Email already registered"}]
+            )
         user = user.objects.create_user(email, first_name, last_name, password)
-        return CreateUser(user=user, ok=True, errors=[])
+        return CreateUser(result=user, ok=True, errors=[])
 
 
 class UpdateUser(graphene.Mutation):
@@ -41,8 +48,8 @@ class UpdateUser(graphene.Mutation):
         phone = graphene.String(required=False)
         address = AddressRequestType()
 
-    user = graphene.Field(UserType)
-    ok = graphene.String()
+    result = graphene.Field(UserType)
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
@@ -54,4 +61,16 @@ class UpdateUser(graphene.Mutation):
         user_changed.send(
             sender=get_user_model(), instance=user, changed=True, address=address
         )
-        return UpdateUser(user=user, ok=True, errors=[])
+        return UpdateUser(result=user, ok=True, errors=[])
+
+
+class LoginUser(graphql_jwt.JSONWebTokenMutation):
+    """ """
+
+    result = graphene.Field(UserType)
+    ok = graphene.Boolean()
+    errors = graphene.List(ErrorType)
+
+    @classmethod
+    def resolve(cls, root, info, **kwargs):
+        return cls(result=info.context.user, ok=True, errors=[])

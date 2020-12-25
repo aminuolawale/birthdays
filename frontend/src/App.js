@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 import "./sass/main.scss";
 import Layout from "./containers/layout";
 import Signup from "./containers/signup";
+import Login from "./containers/login";
+import Account from "./containers/account";
 import { CloudinaryContext } from "cloudinary-react";
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
         <Layout>
           <Route exact path="/" component={Home}></Route>
           <Route exact path="/signup" component={Signup}></Route>
+          <Route exact path="/login" component={Login}></Route>
+          <Route exact path="/account" component={Account}></Route>
         </Layout>
       </CloudinaryContext>
     </div>

@@ -62,7 +62,7 @@ class LinkBirthdayToUser(graphene.Mutation):
         user_id = graphene.String(required=True)
 
     result = graphene.Field(BirthdayType)
-    ok = graphene.String()
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
@@ -88,7 +88,7 @@ class LinkBirthdayToUser(graphene.Mutation):
             return LinkBirthdayToUser(
                 result=None,
                 ok=False,
-                errors=[{"message": "You are not authorized to update this object"}],
+                errors=[{"message": "You are not authorized to access this record"}],
             )
         if birthday.user and str(birthday.user.id) == user_id:
             return LinkBirthdayToUser(result=birthday, ok=True, errors=[])
@@ -106,7 +106,7 @@ class UnlinkBirthday(graphene.Mutation):
         birthday_id = graphene.String(required=True)
 
     result = graphene.Field(BirthdayType)
-    ok = graphene.String()
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
@@ -127,14 +127,14 @@ class UnlinkBirthday(graphene.Mutation):
                     result=None,
                     ok=False,
                     errors=[
-                        {"message": "You are not authorized to update this object"}
+                        {"message": "You are not authorized to access this record"}
                     ],
                 )
         elif auth_user != creator:
             return DeleteBirthday(
                 result=None,
                 ok=False,
-                errors=[{"message": "You are not authorized to update this object"}],
+                errors=[{"message": "You are not authorized to access this record"}],
             )
         birthday.user = None
         birthday.save()
@@ -148,7 +148,7 @@ class ToggleBirthdayVisibility(graphene.Mutation):
         birthday_id = graphene.String(required=True)
 
     result = graphene.Field(BirthdayType)
-    ok = graphene.String()
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
@@ -179,14 +179,14 @@ class ToggleBirthdayVisibility(graphene.Mutation):
                     result=None,
                     ok=False,
                     errors=[
-                        {"message": "You are not authorized to update this object"}
+                        {"message": "You are not authorized to access this record"}
                     ],
                 )
         elif auth_user != creator:
             return DeleteBirthday(
                 result=None,
                 ok=False,
-                errors=[{"message": "You are not authorized to update this object"}],
+                errors=[{"message": "You are not authorized to access this record"}],
             )
         birthday.visible = not birthday.visible
         birthday.save()
@@ -200,7 +200,7 @@ class DeleteBirthday(graphene.Mutation):
         birthday_id = graphene.String(required=True)
 
     result = graphene.Field(BirthdayType)
-    ok = graphene.String()
+    ok = graphene.Boolean()
     errors = graphene.List(ErrorType)
 
     @classmethod
@@ -231,14 +231,14 @@ class DeleteBirthday(graphene.Mutation):
                     result=None,
                     ok=False,
                     errors=[
-                        {"message": "You are not authorized to update this object"}
+                        {"message": "You are not authorized to access this record"}
                     ],
                 )
         elif auth_user != creator:
             return DeleteBirthday(
                 result=None,
                 ok=False,
-                errors=[{"message": "You are not authorized to update this object"}],
+                errors=[{"message": "You are not authorized to access this record"}],
             )
         birthday.delete()
         return DeleteBirthday(result=None, ok=True, errors=[])

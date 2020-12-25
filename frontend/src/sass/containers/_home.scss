@@ -2,15 +2,17 @@
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     position: relative;
+    min-height: 100vh;
    &__hero {
        height: 70vh;
        display:flex;
        align-items: center;
        z-index: 2;
        &__content{
+           width: 400px;
            &__mainText{
-               font-size: $xlg-font;
-               margin-bottom: 80px;
+               font-size: $lg-font;
+               margin-bottom: 40px;
            }
        }
    }

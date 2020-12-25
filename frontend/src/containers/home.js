@@ -10,7 +10,7 @@ const Home = () => {
           <p className="home__hero__content__mainText">
             Make your birthdays much more fun.
           </p>
-          <Button size="lg">Join Now</Button>
+          <Button size="md">Join Now</Button>
         </div>
       </div>
       <div className="home__showcase"></div>

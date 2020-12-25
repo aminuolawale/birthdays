@@ -1,5 +1,56 @@
 import { gql } from "@apollo/client";
 
+const SIGNUP = gql`
+  mutation createUser(
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+  ) {
+    createUser(
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      password: $password
+    ) {
+      ok
+      errors {
+        message
+      }
+      result {
+        fullName
+        email
+      }
+    }
+  }
+`;
+
+const LOGIN = gql`
+  mutation login($email: String!, $password: String!) {
+    tokenAuth(email: $email, password: $password) {
+      token
+    }
+  }
+`;
+
+const ME = gql`
+  query me {
+    me {
+      ok
+      errors {
+        message
+      }
+      result {
+        id
+        email
+        firstName
+        lastName
+        fullName
+      }
+    }
+  }
+`;
+
 const CREATE_BIRTHDAY = gql`
   mutation createBirthday(
     $firstName: String!
@@ -50,4 +101,4 @@ const GET_BIRTHDAYS = gql`
   }
 `;
 
-export { CREATE_BIRTHDAY, GET_BIRTHDAYS };
+export { SIGNUP, LOGIN, ME, CREATE_BIRTHDAY, GET_BIRTHDAYS };

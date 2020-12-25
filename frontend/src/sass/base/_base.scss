@@ -36,3 +36,11 @@ input{
 button {
     font-family: inherit;
 }
+
+.mainHighlight{
+    color:$main-wine;
+}
+button{
+    border:none;
+    outline:none;
+}

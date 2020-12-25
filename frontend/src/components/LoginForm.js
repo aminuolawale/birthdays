@@ -2,28 +2,29 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
-import { SIGNUP } from "../graph-ql/schema";
+import { LOGIN } from "../graph-ql/schema";
 import { Redirect } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-
-const SignupForm = () => {
+const LoginForm = () => {
   const { register, handleSubmit } = useForm();
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-
-  const [signup] = useMutation(SIGNUP, {
+  const [login] = useMutation(LOGIN, {
     onCompleted(data) {
-      const result = data.createUser;
-      if (result.ok) {
+      const result = data.tokenAuth;
+      if (result.token) {
+        localStorage.setItem("token", result.token);
         setSuccess(true);
-      } else {
-        setErrors(result.errors);
       }
     },
   });
-  const onSubmit = (payload) => {
-    signup({ variables: payload });
+  const onSubmit = async (payload) => {
+    try {
+      await login({ variables: payload });
+    } catch (err) {
+      setErrors([{ message: "Incorrect email or password" }]);
+    }
   };
   const togglePasswordVisibility = () => {
     const x = document.getElementById("password");
@@ -36,13 +37,13 @@ const SignupForm = () => {
     }
   };
   if (success) {
-    return <Redirect to="/login"></Redirect>;
+    return <Redirect to="/account"></Redirect>;
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="form__header">
         <h2 className="form__header__title">
-          Welcome to <span className="mainHighlight">Birthdays</span>
+          Login to <span className="mainHighlight">Birthdays</span>
         </h2>
       </div>
       <div className="form__errors">
@@ -60,29 +61,6 @@ const SignupForm = () => {
             name="email"
             type="email"
             placeholder="example@email.com"
-            required
-            ref={register}
-          ></input>
-        </div>
-        <div className="form__body__fieldGroup">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            id="firstName"
-            name="firstName"
-            type="text"
-            placeholder=""
-            required
-            ref={register}
-          ></input>
-        </div>
-        <div className="form__body__fieldGroup">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            id="lastName"
-            name="lastName"
-            type="text"
-            placeholder=""
-            required
             ref={register}
           ></input>
         </div>
@@ -93,11 +71,10 @@ const SignupForm = () => {
             name="password"
             type="password"
             placeholder=""
-            required
             ref={register}
           ></input>
           <div
-            className="form__body__passwordToggler form__body__passwordToggler--signup"
+            className="form__body__passwordToggler"
             onClick={togglePasswordVisibility}
           >
             {passwordVisibility ? (
@@ -113,10 +90,9 @@ const SignupForm = () => {
             )}
           </div>
         </div>
-
         <div className="form__body__button">
           <Button size="sm" expand={true}>
-            Signup
+            Login
           </Button>
         </div>
       </div>
@@ -124,4 +100,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;
