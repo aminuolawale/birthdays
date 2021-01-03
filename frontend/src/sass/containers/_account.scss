@@ -1,0 +1,32 @@
+.account{
+    min-height: $min-viewHeight;
+    margin-top: 40px;
+    &__details {
+        height:200px;
+        width: 500px;
+        margin:auto;
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+        justify-content: center;
+        background:$main-white;
+        padding:20px;
+        border-radius: 40px;
+        &__image{
+            height:200px;
+            width:200px;
+            &>img{
+                border-radius: 100px;
+            }
+        }
+        &__items {
+            &>h2{
+                margin-bottom: 10px;
+            }
+            &>p{
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+}

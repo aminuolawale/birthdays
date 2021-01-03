@@ -1,0 +1,12 @@
+.verificationPrompt{
+    color:$main-wine;
+    height: 40px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $main-wine;
+    border-radius: 20px;
+    &__text{
+        margin-right: 30px;
+    }
+}

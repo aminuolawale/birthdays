@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -11,6 +11,10 @@ const SignupForm = () => {
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  useEffect(() => {
+    document.getElementById("password").type = "password";
+    setPasswordVisibility(false);
+  }, []);
 
   const [signup] = useMutation(SIGNUP, {
     onCompleted(data) {
@@ -29,10 +33,10 @@ const SignupForm = () => {
     const x = document.getElementById("password");
     if (x.type === "password") {
       x.type = "text";
-      setPasswordVisibility(false);
+      setPasswordVisibility(true);
     } else {
       x.type = "password";
-      setPasswordVisibility(true);
+      setPasswordVisibility(false);
     }
   };
   if (success) {
@@ -101,15 +105,15 @@ const SignupForm = () => {
             onClick={togglePasswordVisibility}
           >
             {passwordVisibility ? (
-              <FaRegEyeSlash
-                className="form__body__passwordToggler__icon"
-                size="20px"
-              ></FaRegEyeSlash>
-            ) : (
               <FaRegEye
                 className="form__body__passwordToggler__icon"
                 size="20px"
               ></FaRegEye>
+            ) : (
+              <FaRegEyeSlash
+                className="form__body__passwordToggler__icon"
+                size="20px"
+              ></FaRegEyeSlash>
             )}
           </div>
         </div>

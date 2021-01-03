@@ -1,22 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .manager import CustomUserManager
+from django.conf import settings
+from secrets import token_hex
 
 
 class User(AbstractUser):
-    """ """
+    """"""
 
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=100, null=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=2, null=True)
-    avatar = models.CharField(max_length=100, null=True)
+    avatar = models.URLField(
+        max_length=255,
+        default=settings.DEFAULT_USER_AVATAR,
+    )
     date_of_birth = models.DateTimeField(null=True)
-    # date_created = models.DateTimeField(auto_now_add=True)
-    # last_updated = models.DateTimeField(auto_now=True)
+    verified = models.BooleanField(default=False)
+    last_updated = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
@@ -32,3 +35,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class UserToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)

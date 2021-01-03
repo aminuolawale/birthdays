@@ -1,44 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graph-ql/schema";
 import { Redirect } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { authUserVar } from "../cache";
+
 const LoginForm = () => {
   const { register, handleSubmit } = useForm();
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+
+  useEffect(() => {
+    document.getElementById("password").type = "password";
+    setPasswordVisibility(false);
+    authUserVar({
+      loggedIn: false,
+      userThumb: null,
+      verified: null,
+    });
+  }, []);
+
   const [login] = useMutation(LOGIN, {
     onCompleted(data) {
       const result = data.tokenAuth;
       if (result.token) {
         localStorage.setItem("token", result.token);
+        localStorage.setItem("userThumb", result.result.avatar);
+        localStorage.setItem("verified", result.result.verified);
         setSuccess(true);
+        authUserVar({
+          loggedIn: true,
+          userThumb: result.result.avatar,
+          verified: result.result.verified,
+        });
       }
     },
   });
+
   const onSubmit = async (payload) => {
+    console.log("the payload >>>>>>>>>>>>>>>>>>>>>>>>>.", payload);
     try {
       await login({ variables: payload });
     } catch (err) {
       setErrors([{ message: "Incorrect email or password" }]);
     }
   };
+
   const togglePasswordVisibility = () => {
     const x = document.getElementById("password");
     if (x.type === "password") {
       x.type = "text";
-      setPasswordVisibility(false);
+      setPasswordVisibility(true);
     } else {
       x.type = "password";
-      setPasswordVisibility(true);
+      setPasswordVisibility(false);
     }
   };
+
   if (success) {
     return <Redirect to="/account"></Redirect>;
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="form__header">
@@ -78,15 +103,15 @@ const LoginForm = () => {
             onClick={togglePasswordVisibility}
           >
             {passwordVisibility ? (
-              <FaRegEyeSlash
-                className="form__body__passwordToggler__icon"
-                size="20px"
-              ></FaRegEyeSlash>
-            ) : (
               <FaRegEye
                 className="form__body__passwordToggler__icon"
                 size="20px"
               ></FaRegEye>
+            ) : (
+              <FaRegEyeSlash
+                className="form__body__passwordToggler__icon"
+                size="20px"
+              ></FaRegEyeSlash>
             )}
           </div>
         </div>

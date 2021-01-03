@@ -21,6 +21,7 @@ class UserType(DjangoObjectType):
             "phone",
             "avatar",
             "address",
+            "verified",
             "created_birthdays",
         )
 

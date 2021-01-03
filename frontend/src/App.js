@@ -4,6 +4,7 @@ import "./sass/main.scss";
 import Layout from "./containers/layout";
 import Signup from "./containers/signup";
 import Login from "./containers/login";
+import VerifyAccount from "./containers/verifyAccount";
 import Account from "./containers/account";
 import { CloudinaryContext } from "cloudinary-react";
 
@@ -15,6 +16,10 @@ function App() {
           <Route exact path="/" component={Home}></Route>
           <Route exact path="/signup" component={Signup}></Route>
           <Route exact path="/login" component={Login}></Route>
+          <Route
+            path="/verify_account/:token"
+            component={VerifyAccount}
+          ></Route>
           <Route exact path="/account" component={Account}></Route>
         </Layout>
       </CloudinaryContext>

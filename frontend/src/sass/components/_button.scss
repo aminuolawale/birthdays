@@ -8,6 +8,8 @@
     }
     &--xsm{
         font-size: $xsm-font;
+        padding: 5px 10px;
+        border-radius: calc((#{$md-font} + 10px)/2);
     }
     &--sm{
         font-size: $sm-font;

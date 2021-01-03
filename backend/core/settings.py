@@ -140,7 +140,7 @@ GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     # optional
     # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
-    "JWT_EXPIRATION_DELTA": timedelta(hours=1),
+    "JWT_EXPIRATION_DELTA": timedelta(hours=24),
 }
 
 # Internationalization
@@ -167,11 +167,19 @@ AUTH_USER_MODEL = "users.User"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = "587"
+EMAIL_PORT = 587
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-
+EMAIL_SERVER = "smtp.gmail.com"
+EMAIL_ACTIVE_FIELD = "verified"
+EMAIL_ADDRESS = env("EMAIL_HOST_USER")
+EMAIL_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_FROM_ADDRESS = env("EMAIL_FROM_ADDRESS")
+EMAIL_PAGE_DOMAIN = env("EMAIL_PAGE_DOMAIN")
 DJANGO_SETTINGS_MODULE = "core.settings"
+
+
+DEFAULT_USER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSoYBRO4UZskSQQtUJZSZkrLpQiLgD-M3ccg&usqp=CAU"

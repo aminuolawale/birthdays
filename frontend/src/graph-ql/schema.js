@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const SIGNUP = gql`
+export const SIGNUP = gql`
   mutation createUser(
     $email: String!
     $firstName: String!
@@ -25,15 +25,58 @@ const SIGNUP = gql`
   }
 `;
 
-const LOGIN = gql`
+export const LOGIN = gql`
   mutation login($email: String!, $password: String!) {
     tokenAuth(email: $email, password: $password) {
       token
+      ok
+      result {
+        id
+        fullName
+        email
+        avatar
+        verified
+      }
     }
   }
 `;
 
-const ME = gql`
+export const VERIFY_USER = gql`
+  mutation verifyUser($token: String!) {
+    verifyUser(token: $token) {
+      ok
+      errors {
+        message
+      }
+      result {
+        fullName
+        email
+      }
+    }
+  }
+`;
+
+export const RESEND_VERIFICATION = gql`
+  mutation resendVerification {
+    resendVerification {
+      ok
+      errors {
+        message
+      }
+    }
+  }
+`;
+export const AUTH_USER = gql`
+  query authUser {
+    authUser @client {
+      loggedIn
+      userThumb
+      verified
+    }
+  }
+`;
+
+export const ME = gql`
   query me {
     me {
       ok
@@ -51,7 +94,7 @@ const ME = gql`
   }
 `;
 
-const CREATE_BIRTHDAY = gql`
+export const CREATE_BIRTHDAY = gql`
   mutation createBirthday(
     $firstName: String!
     $lastName: String!
@@ -81,7 +124,7 @@ const CREATE_BIRTHDAY = gql`
   }
 `;
 
-const GET_BIRTHDAYS = gql`
+export const GET_BIRTHDAYS = gql`
   query getBirthdays {
     allBirthdays {
       id
@@ -100,5 +143,3 @@ const GET_BIRTHDAYS = gql`
     }
   }
 `;
-
-export { SIGNUP, LOGIN, ME, CREATE_BIRTHDAY, GET_BIRTHDAYS };

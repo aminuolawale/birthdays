@@ -3,6 +3,7 @@
     grid-template-columns: repeat(2, 1fr);
     position: relative;
     min-height: 100vh;
+    margin-top: 40px;
    &__hero {
        height: 70vh;
        display:flex;
