@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 
 const uploadUrl = process.env.REACT_APP_UPLOAD_URL;
+const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
 const useCloudinary = (file) => {
   const [secureUrl, setSecureUrl] = useState(null);
 
   useEffect(() => {
-    if (file) {
+    if (file && file.length > 0) {
       var payload = new FormData();
-      payload.append("file", file);
-      payload.append("upload_preset", "pzpdpnze");
+      Array.from(file).map((f) => payload.append("file", f));
+      payload.append("upload_preset", uploadPreset);
 
       fetch(uploadUrl, { method: "POST", body: payload })
         .then((res) => res.json())

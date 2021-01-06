@@ -85,10 +85,68 @@ export const ME = gql`
       }
       result {
         id
+        firstName
+        lastName
+        middleName
+        fullName
+        nickname
+        bio
+        dateOfBirth
         email
+        avatar
+        dateJoined
+        address {
+          street
+          city
+          state
+          country
+        }
+      }
+    }
+  }
+`;
+
+export const CHANGE_AVATAR = gql`
+  mutation changeAvatar($url: String!) {
+    changeAvatar(url: $url) {
+      ok
+      errors {
+        message
+      }
+      result {
+        username
+        avatar
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser(
+    $firstName: String
+    $lastName: String
+    $middleName: String
+    $nickname: String
+    $phone: String
+    $address: AddressRequestType
+  ) {
+    updateUser(
+      firstName: $firstName
+      lastName: $lastName
+      middleName: $middleName
+      nickname: $nickname
+      phone: $phone
+      address: $address
+    ) {
+      ok
+      errors {
+        message
+      }
+      result {
         firstName
         lastName
         fullName
+        verified
       }
     }
   }

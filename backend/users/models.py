@@ -12,12 +12,14 @@ class User(AbstractUser):
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=100, null=True)
     middle_name = models.CharField(max_length=100, null=True)
+    nickname = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=2, null=True)
     avatar = models.URLField(
         max_length=255,
         default=settings.DEFAULT_USER_AVATAR,
     )
     date_of_birth = models.DateTimeField(null=True)
+    bio = models.TextField(null=True)
     verified = models.BooleanField(default=False)
     last_updated = models.DateTimeField(auto_now=True)
 

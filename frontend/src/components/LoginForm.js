@@ -6,21 +6,19 @@ import { LOGIN } from "../graph-ql/schema";
 import { Redirect } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { authUserVar } from "../cache";
+import Motion from "../components/Motion";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm();
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     document.getElementById("password").type = "password";
     setPasswordVisibility(false);
-    authUserVar({
-      loggedIn: false,
-      userThumb: null,
-      verified: null,
-    });
   }, []);
 
   const [login] = useMutation(LOGIN, {
@@ -36,6 +34,7 @@ const LoginForm = () => {
           userThumb: result.result.avatar,
           verified: result.result.verified,
         });
+        history.push("/");
       }
     },
   });
@@ -65,7 +64,12 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form">
+    <Motion
+      elem="form"
+      duration=".5"
+      onSubmit={handleSubmit(onSubmit)}
+      className="form"
+    >
       <div className="form__header">
         <h2 className="form__header__title">
           Login to <span className="mainHighlight">Birthdays</span>
@@ -121,7 +125,7 @@ const LoginForm = () => {
           </Button>
         </div>
       </div>
-    </form>
+    </Motion>
   );
 };
 

@@ -10,11 +10,13 @@ const Layout = (props) => {
   console.log("the data>>>>>>>>>>>>>>>>>>>>>>>.", data);
   return (
     <div className="layout">
-      <Navbar></Navbar>
-      {data.authUser.verified === "false" && data.authUser.loggedIn && (
-        <VerificationPrompt></VerificationPrompt>
-      )}
-      {props.children}
+      <Navbar data={data ? data : {}}></Navbar>
+      <div className="layout__content">
+        {/* {data.authUser.verified === "false" && data.authUser.loggedIn && (
+          <VerificationPrompt></VerificationPrompt>
+        )} */}
+        {props.children}
+      </div>
       <Footer></Footer>
     </div>
   );

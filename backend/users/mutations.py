@@ -49,6 +49,7 @@ class UpdateUser(graphene.Mutation):
         first_name = graphene.String(required=False)
         last_name = graphene.String(required=False)
         middle_name = graphene.String(required=False)
+        nickname = graphene.String(required=False)
         phone = graphene.String(required=False)
         address = AddressRequestType()
 
@@ -129,4 +130,22 @@ class ResendVerification(graphene.Mutation):
         tokens.delete()
         token = UserToken.objects.create(user=user, token=generate_token())
         send_confirmation_email.delay(user.id, token.token)
+        return ResendVerification(result=user, ok=True, errors=[])
+
+
+class ChangeAvatar(graphene.Mutation):
+    """"""
+
+    class Arguments:
+        url = graphene.String(required=True)
+
+    result = graphene.Field(UserType)
+    ok = graphene.Boolean()
+    errors = graphene.List(ErrorType)
+
+    @classmethod
+    @login_required
+    def mutate(cls, root, info, url):
+        """ """
+        user = get_user_model().objects.update_user(info.context.user.id, avatar=url)
         return ResendVerification(result=user, ok=True, errors=[])

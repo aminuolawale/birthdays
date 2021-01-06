@@ -1,40 +1,35 @@
 .home {
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    position: relative;
-    min-height: 100vh;
-    margin-top: 40px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 0;
    &__hero {
        height: 70vh;
        display:flex;
        align-items: center;
        z-index: 2;
        &__content{
-           width: 400px;
+           width: 650px;
            &__mainText{
-               font-size: $lg-font;
-               margin-bottom: 40px;
+               font-size: $xlg-font;
+               font-weight: 800;
+           }
+           &__button{
+               margin-top: 40px;
            }
        }
    }
-   &__ribbons{
-       &--0{
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            right:0;
-            object-fit: contain;
-            transform: rotate(0deg);
-            opacity: .99;
+   &__showcase{
+       width:640px;
+       height:640px;
+       display:grid;
+       grid-template-columns: repeat(2, 1fr);
+       &>img{
+           height:300px;
+           width:300px;
+           border-radius: 20px;
+
        }
-       &--1{
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            right:50%;
-            top:50%;
-            object-fit: contain;
-            transform: rotate(130deg)
-        }
    }
+  
 }   

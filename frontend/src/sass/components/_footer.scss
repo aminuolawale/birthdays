@@ -1,6 +1,46 @@
 .footer{
-    height:200px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+    height:400px;
+    padding:40px 160px;
+    background:$main-dark;
+    color: $main-cream;
+    position:relative;
+    &__lists{
+        opacity: .8;
+        display:flex;
+        align-items: top;
+        &__item{
+            width:400px;
+            &__header{
+                font-size: $sm-font;
+                font-weight: bold;
+            }
+            &>ul{
+                margin-top: 20px;
+                font-size: $xsm-font;
+                &>li{
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    &__base{
+        opacity: .8;
+        position:absolute;
+        bottom:40px;
+        height:40px;
+        display:flex;
+        align-items: center;
+        &>p{
+            font-size: $sm-font;
+        }
+        &>ul{
+            margin-left: 40px;
+            font-size: $xsm-font;
+            display:flex;
+            align-items: center;
+            &>li{
+                margin-left: 20px;
+            }
+        }
+    }
 }

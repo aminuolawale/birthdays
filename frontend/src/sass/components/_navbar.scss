@@ -2,7 +2,9 @@
     display:flex;
     align-items: center;
     justify-content: space-between; 
-    height:100px;
+    height:120px;
+    padding: 0 160px;
+    position:relative;
     &__header{
         color:$main-wine;
         &__text{
@@ -23,5 +25,30 @@
             width: 60px;
             border-radius: 30px;
         }
+    }
+    &__dropdown{
+        background: $main-white;
+        position:absolute;
+        top:50px;
+        right:160px;
+        font-size: $xsm-font;
+        width:200px;
+        padding:20px 0;
+        border-radius: 20px;
+        box-shadow: 1px 1px 30px  $main-gray;
+        z-index: 1;
+        &__list {
+            &__link{
+                color:$main-wine;
+            }
+            &>div{
+                padding:10px 20px ;
+                &:hover{
+                    background:$main-cream;
+                    cursor:pointer;
+                }
+            }
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import Signup from "./containers/signup";
 import Login from "./containers/login";
 import VerifyAccount from "./containers/verifyAccount";
 import Account from "./containers/account";
+import EditAccount from "./containers/editAccount";
 import { CloudinaryContext } from "cloudinary-react";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             component={VerifyAccount}
           ></Route>
           <Route exact path="/account" component={Account}></Route>
+          <Route exact path="/edit_account" component={EditAccount}></Route>
         </Layout>
       </CloudinaryContext>
     </div>

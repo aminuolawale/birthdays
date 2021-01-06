@@ -40,4 +40,5 @@ class MeQuery(graphene.ObjectType):
     def resolve_me(root, info):
         """ """
         user = User.objects.get(id=info.context.user.id)
+
         return UserResponseType(result=info.context.user, ok=True, errors=[])

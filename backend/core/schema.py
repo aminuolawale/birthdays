@@ -7,6 +7,7 @@ from users.mutations import (
     LoginUser,
     VerifyUser,
     ResendVerification,
+    ChangeAvatar,
 )
 from users.queries import UsersQuery, MeQuery
 from birthdays.mutations import (
@@ -30,6 +31,7 @@ class Mutation(graphene.ObjectType):
     updateUser = UpdateUser.Field()
     verify_user = VerifyUser.Field()
     resend_verification = ResendVerification.Field()
+    change_avatar = ChangeAvatar.Field()
     createBirthday = CreateBirthday.Field()
     linkBirthdayToUser = LinkBirthdayToUser.Field()
     unlinkBirthday = UnlinkBirthday.Field()

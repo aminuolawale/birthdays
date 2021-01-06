@@ -1,20 +1,47 @@
 import React, { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
-import Ribbon from "../img/ribbons.png";
+import Baby1 from "../img/baby1.jpg";
+import Guy1 from "../img/guy1.jpg";
+import Guy2 from "../img/guy2.jpg";
+import Girl1 from "../img/girl1.jpg";
+import Motion from "../components/Motion";
+import { AUTH_USER } from "../graph-ql/schema";
 
 const Home = () => {
+  const { data } = useQuery(AUTH_USER);
+  console.log("the data", data);
   return (
     <div className="home">
       <div className="home__hero">
         <div className="home__hero__content">
-          <p className="home__hero__content__mainText">
-            Make your birthdays much more fun.
-          </p>
-          <Button size="md">Join Now</Button>
+          <Motion
+            elem="p"
+            duration="1.5"
+            className="home__hero__content__mainText"
+          >
+            Capture memories. Make your birthdays much more fun.
+          </Motion>
+          {!data.authUser.loggedIn && (
+            <Motion
+              elem="div"
+              duration="2"
+              className="home__hero__content__button"
+            >
+              <Link to="/signup">
+                <Button size="md">Join Now</Button>
+              </Link>
+            </Motion>
+          )}
         </div>
       </div>
-      <div className="home__showcase"></div>
-      <img className="home__ribbons--0" src={Ribbon} alt="ribbon"></img>
+      <div className="home__showcase">
+        <Motion elem="img" duration="1.5" src={Baby1} alt="ribbon"></Motion>
+        <Motion elem="img" duration="2" src={Guy1} alt="ribbon"></Motion>
+        <Motion elem="img" duration="1" src={Girl1} alt="ribbon"></Motion>
+        <Motion elem="img" duration=".5" src={Guy2} alt="ribbon"></Motion>
+      </div>
     </div>
   );
 };

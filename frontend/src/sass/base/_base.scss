@@ -15,11 +15,11 @@ a {
 
 a:hover {
     cursor: pointer;
-    color: darken($main-wine, 20%);
+    color: $muted-wine;
 }
 
 body {
-    font-family: $quicksand-font;
+    font-family: $lato-font;
     background-color: $main-cream;
     color: $main-dark;
 

@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { SIGNUP } from "../graph-ql/schema";
 import { Redirect } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Motion from "../components/Motion";
 
 const SignupForm = () => {
   const { register, handleSubmit } = useForm();
@@ -43,7 +44,12 @@ const SignupForm = () => {
     return <Redirect to="/login"></Redirect>;
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form">
+    <Motion
+      elem="form"
+      duration=".5"
+      onSubmit={handleSubmit(onSubmit)}
+      className="form"
+    >
       <div className="form__header">
         <h2 className="form__header__title">
           Welcome to <span className="mainHighlight">Birthdays</span>
@@ -124,7 +130,7 @@ const SignupForm = () => {
           </Button>
         </div>
       </div>
-    </form>
+    </Motion>
   );
 };
 
