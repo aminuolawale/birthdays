@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import LoginForm from "../components/LoginForm";
-import { authUserVar } from "../cache";
+import { store } from "../store";
 
 const Login = () => {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
   useEffect(() => {
-    localStorage.setItem("token", "");
-    localStorage.setItem("userThumb", "");
-    localStorage.setItem("verified", "");
-    authUserVar({
-      loggedIn: false,
-      userThumb: "",
-      verified: "",
-    });
+    dispatch({ type: "LOGOUT_SUCCESS" });
   }, []);
   return (
     <div className="login">

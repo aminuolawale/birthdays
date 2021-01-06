@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import Motion from "./Motion";
 import { useForm } from "react-hook-form";
@@ -8,33 +8,35 @@ import { ME, CHANGE_AVATAR } from "../graph-ql/schema";
 import LoadSpinner from "./LoadSpinner";
 import { UPDATE_USER } from "../graph-ql/schema";
 import { useHistory } from "react-router-dom";
+import { store } from "../store";
+import { format } from "date-fns";
+import Loading from "../img/loading.gif";
 
 const EditAccountForm = () => {
+  const { dispatch } = useContext(store);
   const { data, loading } = useQuery(ME, { fetchPolicy: "no-cache" });
   const [userData, setUserData] = useState({});
   const [userAvatar, setUserAvatar] = useState(null);
   const { register, watch, handleSubmit } = useForm();
   const watchAvatar = watch("avatar");
-  console.log("the avatar", watchAvatar);
   const { secureUrl } = useCloudinary(watchAvatar);
-  console.log("the secure url", secureUrl);
   const [dateFieldActive, setDateFieldActive] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const history = useHistory();
 
   const [changeAvatar] = useMutation(CHANGE_AVATAR, {
     onCompleted(data) {
       const result = data.changeAvatar.result;
       if (result.ok && result.avatar) {
-        localStorage.setItem("userThumb", result.avatar);
-        setUserAvatar(result.avatar);
+        dispatch({ type: "CHANGE_AVATAR_SUCCESS", data: result.avatar });
       }
     },
   });
   const [updateUser] = useMutation(UPDATE_USER, {
     onCompleted(data) {
-      const result = data.updateUser.result;
-      console.log("<<<<<<<<<<<<<<<<,,", result.ok);
-      if (result.ok) {
+      const { ok, result } = data.updateUser;
+      console.log("the successful result", result);
+      if (ok) {
         history.push("/account");
       }
     },
@@ -49,18 +51,23 @@ const EditAccountForm = () => {
   useEffect(() => {
     if (secureUrl) {
       changeAvatar({ variables: { url: secureUrl } });
+      setUserAvatar(secureUrl);
+      setImageUploading(false);
     }
-  }, [secureUrl]);
+  }, [secureUrl, changeAvatar]);
 
   const onSubmit = (payload) => {
+    if (document.getElementById("dateOfBirth").type === "text") {
+      payload.dateOfBirth = userData.dateOfBirth;
+    }
     const cleanedPayload = {
       firstName: payload.firstName,
       lastName: payload.lastName,
       middleName: payload.middleName,
       nickname: payload.nickname,
       bio: payload.bio,
-      phone: payload.phone,
       dateOfBirth: payload.dateOfBirth,
+      phone: "oifdja",
       address: {
         street: payload.street,
         city: payload.city,
@@ -70,13 +77,18 @@ const EditAccountForm = () => {
         lat: 92.2,
       },
     };
+    console.log("the sent payload", cleanedPayload);
     updateUser({ variables: cleanedPayload });
   };
 
+  useEffect(() => {
+    if (watchAvatar && watchAvatar.length > 0) {
+      setImageUploading(true);
+    }
+  }, [watchAvatar]);
   if (loading) {
     return <LoadSpinner></LoadSpinner>;
   } else {
-    console.log(userData);
     return (
       <Motion
         elem="form"
@@ -92,8 +104,12 @@ const EditAccountForm = () => {
         <div className="accountForm__body">
           <div className="accountForm__body__image">
             <img src={userAvatar ? userAvatar : userData.avatar}></img>
-            <div className="accountForm__body__fields__fieldGroup">
-              <input ref={register} name="avatar" type="file"></input>
+            <div className="accountForm__body__image__input">
+              {imageUploading ? (
+                <img src={Loading}></img>
+              ) : (
+                <input ref={register} name="avatar" type="file"></input>
+              )}
             </div>
           </div>
           <div className="form__body__fields">
@@ -135,8 +151,8 @@ const EditAccountForm = () => {
             </div>
             <div className="accountForm__body__fields__fieldGroup accountForm__body__fields__fieldGroup--alt">
               <textarea
-                id="middleName"
-                name="middleName"
+                id="bio"
+                name="bio"
                 type="text"
                 placeholder="Bio"
                 defaultValue={userData.bio}
@@ -157,6 +173,7 @@ const EditAccountForm = () => {
                 name="street"
                 type="text"
                 placeholder="Street"
+                defaultValue={userData.address ? userData.address.street : ""}
                 ref={register}
               ></input>
             </div>
@@ -180,12 +197,17 @@ const EditAccountForm = () => {
             </div>
             <div className="accountForm__body__fields__fieldGroup">
               <input
-                id="date"
-                name="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
                 type={dateFieldActive ? "date" : "text"}
                 placeholder="Date of Birth"
                 defaultValue={
-                  userData.address ? userData.address.dateOfBirth : ""
+                  userData.dateOfBirth
+                    ? format(
+                        new Date(Date.parse(userData.dateOfBirth)),
+                        "dd MMM yyyy"
+                      )
+                    : ""
                 }
                 onFocus={() => setDateFieldActive(true)}
                 ref={register}

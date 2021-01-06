@@ -9,6 +9,7 @@ import graphql_jwt
 from .models import UserToken
 from core.utils import generate_token
 from core.tasks import send_confirmation_email
+from datetime import datetime, timezone
 
 
 class CreateUser(graphene.Mutation):
@@ -50,8 +51,10 @@ class UpdateUser(graphene.Mutation):
         last_name = graphene.String(required=False)
         middle_name = graphene.String(required=False)
         nickname = graphene.String(required=False)
+        bio = graphene.String(required=False)
         phone = graphene.String(required=False)
-        address = AddressRequestType()
+        address = AddressRequestType(required=False)
+        date_of_birth = graphene.String(required=False)
 
     result = graphene.Field(UserType)
     ok = graphene.Boolean()

@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { AUTH_USER } from "../graph-ql/schema";
 import Motion from "./Motion";
-import { authUserVar } from "../cache";
 import { useHistory } from "react-router-dom";
-import LoadSpinner from "./LoadSpinner";
-const Navbar = ({ data }) => {
-  console.log("received", data);
-  const [dropdownActive, setDropdownActive] = useState(false);
+import { store } from "../store";
+import { NAV_AUTH } from "../graph-ql/schema";
+
+const Navbar = () => {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+  const { data } = useQuery(NAV_AUTH, { fetchPolicy: "no-cache" });
   const history = useHistory();
+  const [dropdownActive, setDropdownActive] = useState(false);
+  const [userThumb, setUserThumb] = useState();
   const logout = () => {
-    localStorage.setItem("token", "");
-    localStorage.setItem("userThumb", "");
-    localStorage.setItem("verified", "");
-    authUserVar({
-      loggedIn: false,
-      userThumb: "",
-      verified: "",
-    });
+    dispatch({ type: "LOGOUT_SUCCESS" });
     setDropdownActive(false);
     history.push("/");
   };
+
+  useEffect(() => {
+    if (data) {
+      setUserThumb((prevState) => data.me.result.avatar);
+    }
+  }, [data]);
+
   return (
     <div className="navbar">
       <div className="navbar__header">
@@ -30,13 +33,14 @@ const Navbar = ({ data }) => {
         </Link>
       </div>
       <ul className="navbar__links">
-        {data.authUser.loggedIn ? (
+        {globalState.state.loggedIn ? (
           <Link to="/account">
             <img
               onMouseEnter={() => setDropdownActive(true)}
               onMouseLeave={() => setDropdownActive(false)}
               className="navbar__links__image"
-              src={data.authUser.userThumb}
+              // src={globalState.state.userThumb}
+              src={userThumb}
             ></img>
           </Link>
         ) : (

@@ -13,7 +13,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100, null=True)
     middle_name = models.CharField(max_length=100, null=True)
     nickname = models.CharField(max_length=100, null=True)
-    phone = models.CharField(max_length=2, null=True)
+    phone = models.CharField(max_length=20, null=True)
     avatar = models.URLField(
         max_length=255,
         default=settings.DEFAULT_USER_AVATAR,

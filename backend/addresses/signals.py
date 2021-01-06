@@ -17,4 +17,5 @@ def create_user_address(sender, instance, changed, **kwargs):
             and existing_address.lng == address_data.get("lng")
         ):
             return
+        exiting_address.delete()
         Address.objects.create(user=instance, **address_data)

@@ -106,6 +106,20 @@ export const ME = gql`
   }
 `;
 
+export const NAV_AUTH = gql`
+  query navAuth {
+    me {
+      ok
+      errors {
+        message
+      }
+      result {
+        avatar
+      }
+    }
+  }
+`;
+
 export const CHANGE_AVATAR = gql`
   mutation changeAvatar($url: String!) {
     changeAvatar(url: $url) {
@@ -127,16 +141,20 @@ export const UPDATE_USER = gql`
     $lastName: String
     $middleName: String
     $nickname: String
+    $bio: String
     $phone: String
     $address: AddressRequestType
+    $dateOfBirth: String
   ) {
     updateUser(
       firstName: $firstName
       lastName: $lastName
       middleName: $middleName
       nickname: $nickname
+      bio: $bio
       phone: $phone
       address: $address
+      dateOfBirth: $dateOfBirth
     ) {
       ok
       errors {

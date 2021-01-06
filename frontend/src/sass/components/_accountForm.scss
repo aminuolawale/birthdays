@@ -25,8 +25,22 @@
                 height:200px;
                 border-radius: 100px;
             }
-            &__button{
-                margin-top:40px;
+            &__input{
+                margin-top: 40px;
+                &>img{
+                    height:64px;
+                }
+                &>input{
+                    font-size: inherit;
+                    padding:10px;
+                    border-radius: 7.5px;
+                    border:2px solid $main-gray;
+                    width:200px;
+                    &:focus{
+                        border:2px solid rgba($main-wine, .7);
+                        outline:none;
+                    }
+                }
             }
 
         }
@@ -61,7 +75,6 @@
                     border-radius: 7.5px;
                     border:2px solid $main-gray;
                     width:210px;
-                    content: 'Select some files';
                     &:hover{
                         border:2px solid rgba($main-wine, .7);
                         outline:none;

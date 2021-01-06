@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graph-ql/schema";
-import { Redirect } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { authUserVar } from "../cache";
 import Motion from "../components/Motion";
 import { useHistory } from "react-router-dom";
+import { store } from "../store";
 
 const LoginForm = () => {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
   const { register, handleSubmit } = useForm();
   const [errors, setErrors] = useState([]);
-  const [success, setSuccess] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const history = useHistory();
 
@@ -25,22 +25,19 @@ const LoginForm = () => {
     onCompleted(data) {
       const result = data.tokenAuth;
       if (result.token) {
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("userThumb", result.result.avatar);
-        localStorage.setItem("verified", result.result.verified);
-        setSuccess(true);
-        authUserVar({
+        const loginData = {
           loggedIn: true,
           userThumb: result.result.avatar,
           verified: result.result.verified,
-        });
+          token: result.token,
+        };
+        dispatch({ type: "LOGIN_SUCCESS", data: loginData });
         history.push("/");
       }
     },
   });
 
   const onSubmit = async (payload) => {
-    console.log("the payload >>>>>>>>>>>>>>>>>>>>>>>>>.", payload);
     try {
       await login({ variables: payload });
     } catch (err) {
@@ -58,11 +55,6 @@ const LoginForm = () => {
       setPasswordVisibility(false);
     }
   };
-
-  if (success) {
-    return <Redirect to="/account"></Redirect>;
-  }
-
   return (
     <Motion
       elem="form"

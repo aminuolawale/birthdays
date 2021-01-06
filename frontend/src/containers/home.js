@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Baby1 from "../img/baby1.jpg";
@@ -7,11 +6,11 @@ import Guy1 from "../img/guy1.jpg";
 import Guy2 from "../img/guy2.jpg";
 import Girl1 from "../img/girl1.jpg";
 import Motion from "../components/Motion";
-import { AUTH_USER } from "../graph-ql/schema";
+import { store } from "../store";
 
 const Home = () => {
-  const { data } = useQuery(AUTH_USER);
-  console.log("the data", data);
+  const globalState = useContext(store);
+  console.log("this is the global state", globalState.state);
   return (
     <div className="home">
       <div className="home__hero">
@@ -23,7 +22,7 @@ const Home = () => {
           >
             Capture memories. Make your birthdays much more fun.
           </Motion>
-          {!data.authUser.loggedIn && (
+          {!globalState.state.loggedIn && (
             <Motion
               elem="div"
               duration="2"

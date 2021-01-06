@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { ME } from "../graph-ql/schema";
 import Button from "../components/Button";
@@ -7,6 +7,7 @@ import LoadSpinner from "../components/LoadSpinner";
 import Landscape from "../img/landscape.jpg";
 import Motion from "../components/Motion";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 const Account = () => {
   const { loading, error, data } = useQuery(ME, { fetchPolicy: "no-cache" });
@@ -41,7 +42,7 @@ const Account = () => {
             <p>{user.bio}</p>
             <div className="account__card__sub__meta">
               <p>Lagos, Nigeria</p>
-              <p>{user.dateJoined}</p>
+              <p>{format(new Date(user.dateJoined), "MMM yyyy")}</p>
             </div>
           </div>
         </Motion>
