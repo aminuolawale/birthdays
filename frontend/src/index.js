@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { StateProvider } from "./store";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:8000/graphql",
+  uri: process.env.REACT_APP_GRAPHQL_URI,
 });
 
 const authLink = setContext((_, { headers }) => {
