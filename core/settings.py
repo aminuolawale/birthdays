@@ -91,11 +91,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 MYPOSTGRESPASSWORD = env("MYPOSTGRESPASSWORD")
+POSTGRES_DATABASE_NAME = env("POSTGRES_DATABASE_NAME")
+POSTGRES_DATABASE_USER = env("POSTGRES_DATABASE_USER")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "birthdays",
-        "USER": "postgres",
+        "NAME": POSTGRES_DATABASE_NAME,
+        "USER": POSTGRES_DATABASE_USER,
         "PASSWORD": MYPOSTGRESPASSWORD,
         "HOST": "localhost",
     }
