@@ -10,12 +10,12 @@ def create_user_address(sender, instance, changed, **kwargs):
     address_data = kwargs.get("address")
     if changed and address_data:
         address_data = kwargs.get("address")
-        existing_address = Address.objects.get(user=instance)
-        if (
-            existing_address
-            and existing_address.lat == address_data.get("lat")
-            and existing_address.lng == address_data.get("lng")
-        ):
-            return
-        exiting_address.delete()
+        existing_address = Address.objects.filter(user=instance)
+        if existing_address.count():
+            existing_address = existing_address.first()
+            if existing_address.lat == address_data.get(
+                "lat"
+            ) and existing_address.lng == address_data.get("lng"):
+                return
+        existing_address.delete()
         Address.objects.create(user=instance, **address_data)

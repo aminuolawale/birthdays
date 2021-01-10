@@ -1,29 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Motion from "./Motion";
 import { useHistory } from "react-router-dom";
 import { store } from "../store";
-import { NAV_AUTH } from "../graph-ql/schema";
 
 const Navbar = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { data } = useQuery(NAV_AUTH, { fetchPolicy: "no-cache" });
   const history = useHistory();
   const [dropdownActive, setDropdownActive] = useState(false);
-  const [userThumb, setUserThumb] = useState();
   const logout = () => {
     dispatch({ type: "LOGOUT_SUCCESS" });
     setDropdownActive(false);
     history.push("/");
   };
-
-  useEffect(() => {
-    if (data) {
-      setUserThumb((prevState) => data.me.result.avatar);
-    }
-  }, [data]);
 
   return (
     <div className="navbar">
@@ -39,8 +29,8 @@ const Navbar = () => {
               onMouseEnter={() => setDropdownActive(true)}
               onMouseLeave={() => setDropdownActive(false)}
               className="navbar__links__image"
-              // src={globalState.state.userThumb}
-              src={userThumb}
+              src={globalState.state.userThumb}
+              // src={userThumb}
             ></img>
           </Link>
         ) : (

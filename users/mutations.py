@@ -72,7 +72,7 @@ class UpdateUser(graphene.Mutation):
         return UpdateUser(result=user, ok=True, errors=[])
 
 
-class LoginUser(graphql_jwt.JSONWebTokenMutation):
+class LoginUser(graphql_jwt.ObtainJSONWebToken):
     """ """
 
     result = graphene.Field(UserType)

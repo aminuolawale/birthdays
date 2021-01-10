@@ -10,7 +10,6 @@ import { store } from "../store";
 
 const Home = () => {
   const globalState = useContext(store);
-  console.log("this is the global state", globalState.state);
   return (
     <div className="home">
       <div className="home__hero">

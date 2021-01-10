@@ -26,16 +26,15 @@ const EditAccountForm = () => {
 
   const [changeAvatar] = useMutation(CHANGE_AVATAR, {
     onCompleted(data) {
-      const result = data.changeAvatar.result;
-      if (result.ok && result.avatar) {
-        dispatch({ type: "CHANGE_AVATAR_SUCCESS", data: result.avatar });
+      const result = data.changeAvatar;
+      if (result.ok) {
+        dispatch({ type: "CHANGE_AVATAR_SUCCESS", data: result.result.avatar });
       }
     },
   });
   const [updateUser] = useMutation(UPDATE_USER, {
     onCompleted(data) {
-      const { ok, result } = data.updateUser;
-      console.log("the successful result", result);
+      const { ok } = data.updateUser;
       if (ok) {
         history.push("/account");
       }
@@ -77,7 +76,6 @@ const EditAccountForm = () => {
         lat: 92.2,
       },
     };
-    console.log("the sent payload", cleanedPayload);
     updateUser({ variables: cleanedPayload });
   };
 

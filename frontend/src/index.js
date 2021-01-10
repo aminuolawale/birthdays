@@ -5,7 +5,6 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
-import { authUserVar } from "./cache";
 import { StateProvider } from "./store";
 
 const httpLink = createHttpLink({
@@ -23,19 +22,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        authUser: {
-          read() {
-            return authUserVar();
-          },
-        },
-      },
-    },
-  },
-});
+const cache = new InMemoryCache();
 const client = new ApolloClient({
   // uri: "http://localhost:8000/graphql",
   link: authLink.concat(httpLink),

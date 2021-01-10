@@ -26,7 +26,6 @@ const LoginForm = () => {
       const result = data.tokenAuth;
       if (result.token) {
         const loginData = {
-          loggedIn: true,
           userThumb: result.result.avatar,
           verified: result.result.verified,
           token: result.token,

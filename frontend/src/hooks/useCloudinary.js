@@ -20,7 +20,6 @@ const useCloudinary = (file) => {
         .catch((err) => console.log(err.message));
     }
   }, [file]);
-  console.log("the secure ur", secureUrl);
   return { secureUrl };
 };
 

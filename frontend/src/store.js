@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from "react";
 
 const initialState = {
   loggedIn: !!localStorage.getItem("token"),
-  userThumb: null,
+  userThumb: localStorage.getItem("userThumb"),
   verified: false,
 };
 
@@ -17,10 +17,13 @@ export const StateProvider = ({ children }) => {
       case "LOGIN_SUCCESS":
         const token = action.data.token;
         localStorage.setItem("token", token);
+        localStorage.setItem("userThumb", action.data.userThumb);
         newState = { ...state, ...action.data, loggedIn: true };
         return newState;
       case "LOGOUT_SUCCESS":
         localStorage.setItem("token", "");
+        localStorage.setItem("userThumb", "");
+
         newState = {
           ...state,
           loggedIn: false,
@@ -29,6 +32,7 @@ export const StateProvider = ({ children }) => {
         };
         return newState;
       case "CHANGE_AVATAR_SUCCESS":
+        localStorage.setItem("userThumb", action.data);
         newState = {
           ...state,
           userThumb: action.data,
