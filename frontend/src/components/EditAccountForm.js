@@ -49,9 +49,7 @@ const EditAccountForm = () => {
 
   useEffect(() => {
     if (secureUrl) {
-      console.log("changing avatar", secureUrl);
       changeAvatar({ variables: { url: secureUrl } });
-      console.log("changed");
       setUserAvatar(secureUrl);
       setImageUploading(false);
     }

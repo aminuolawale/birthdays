@@ -7,7 +7,6 @@ import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import { StateProvider } from "./store";
 
-console.log(process.env.REACT_APP_GRAPHQL_URI);
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI,
 });
