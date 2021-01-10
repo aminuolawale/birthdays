@@ -31,7 +31,7 @@ SECRET_KEY = "@t3(qv^yo797_ts#n0(u75deoh-@^ulcsy=a!1lzp7i@(__(()"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["134.122.11.143", "localhost"]
 
 
 # Application definition
@@ -158,6 +158,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "frontend", "build", "static"),)
+# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 AUTH_USER_MODEL = "users.User"
 
 
