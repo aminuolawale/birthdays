@@ -4,6 +4,7 @@
 #Author: Aminu Mohammed Olawale
 #Date: 10/01/2021
 
+poetry shell
 
 git pull 
 
@@ -13,7 +14,6 @@ npm run build
 
 cd ..
 
-poetry shell
 
 python manage.py collectstatic
 
