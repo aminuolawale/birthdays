@@ -4,7 +4,6 @@
 #Author: Aminu Mohammed Olawale
 #Date: 10/01/2021
 
-poetry shell
 
 git pull 
 
@@ -14,6 +13,7 @@ npm run build
 
 cd ..
 
+source /home/aminuolawale/.cache/pypoetry/virtualenvs/birthdays-V3988U0m-py3.8/bin/activate
 
 python manage.py collectstatic
 
