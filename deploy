@@ -13,8 +13,11 @@ npm run build
 
 cd ..
 
+poetry shell
+
 python manage.py collectstatic
 
+exit
 
 sudo systemctl restart nginx
 
