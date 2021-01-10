@@ -1,0 +1,23 @@
+#!/bin/sh
+#Deployment script
+#Description: Runs commands required for a deployment
+#Author: Aminu Mohammed Olawale
+#Date: 10/01/2021
+
+
+git pull 
+
+cd frontend/
+
+npm run build
+
+cd ..
+
+python manage.py collectstatic
+
+
+sudo systemctl restart nginx
+
+
+
+
