@@ -7,10 +7,6 @@
 
 git pull 
 
-cd frontend/
-
-cd ..
-
 source /home/aminuolawale/.cache/pypoetry/virtualenvs/birthdays-V3988U0m-py3.8/bin/activate
 
 python3.8 manage.py collectstatic
