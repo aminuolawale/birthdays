@@ -10,7 +10,7 @@ import { UPDATE_USER } from "../graph-ql/schema";
 import { useHistory } from "react-router-dom";
 import { store } from "../store";
 import { format } from "date-fns";
-import Loading from "../img/loading.gif";
+import Loading from "../img/loading1.gif";
 
 const EditAccountForm = () => {
   const { dispatch } = useContext(store);
@@ -28,7 +28,7 @@ const EditAccountForm = () => {
     onCompleted(data) {
       const result = data.updateMedia;
       if (result.ok) {
-        dispatch({ type: "UPDATE_MEDIA_SUCCESS", data: result.result.avatar });
+        dispatch({ type: "UPDATE_AVATAR_SUCCESS", data: result.result.avatar });
       }
     },
   });

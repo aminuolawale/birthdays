@@ -94,6 +94,7 @@ export const ME = gql`
         dateOfBirth
         email
         avatar
+        banner
         dateJoined
         address {
           street
