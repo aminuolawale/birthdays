@@ -9,7 +9,7 @@ class Address(models.Model):
     user = models.OneToOneField(
         user_model, related_name="address", on_delete=models.CASCADE
     )
-    street = models.CharField(max_length=100)
+    street = models.CharField(max_length=100, null=True)
     city = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
     country = models.CharField(max_length=20)

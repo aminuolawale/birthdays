@@ -14,7 +14,7 @@ class AddressType(DjangoObjectType):
 class AddressRequestType(graphene.InputObjectType):
     """ """
 
-    street = graphene.String(required=True)
+    street = graphene.String(required=False)
     city = graphene.String(required=False)
     state = graphene.String(required=True)
     country = graphene.String(required=True)

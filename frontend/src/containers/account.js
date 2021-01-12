@@ -91,7 +91,11 @@ const Account = () => {
           <div className="account__card__sub">
             <p>{user.bio}</p>
             <div className="account__card__sub__meta">
-              <p>Lagos, Nigeria</p>
+              <p>
+                {user.address
+                  ? `${user.address.state}, ${user.address.country}`
+                  : ""}
+              </p>
               <p>{format(new Date(user.dateJoined), "MMM yyyy")}</p>
             </div>
           </div>
