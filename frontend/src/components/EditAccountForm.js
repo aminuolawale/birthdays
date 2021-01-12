@@ -105,11 +105,12 @@ const EditAccountForm = () => {
               <img
                 className="accountForm__body__image__img"
                 src={userAvatar ? userAvatar : userData.avatar}
+                alt="avatar"
               ></img>
             </label>
             <div className="accountForm__body__image__input">
               {imageUploading ? (
-                <img src={Loading}></img>
+                <img src={Loading} alt="avatar-loading"></img>
               ) : (
                 <input
                   ref={register}
