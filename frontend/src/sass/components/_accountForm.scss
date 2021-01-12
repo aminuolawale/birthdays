@@ -20,10 +20,14 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            &>img{
+            &__img{
                 width:200px;
                 height:200px;
                 border-radius: 100px;
+                &:hover{
+                    cursor:pointer;
+                    -webkit-filter: brightness(80%);
+                }
             }
             &__input{
                 margin-top: 40px;
@@ -40,7 +44,9 @@
                         border:2px solid rgba($main-wine, .7);
                         outline:none;
                     }
+                    display:none
                 }
+                
             }
 
         }

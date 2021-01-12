@@ -120,9 +120,9 @@ export const NAV_AUTH = gql`
   }
 `;
 
-export const CHANGE_AVATAR = gql`
-  mutation changeAvatar($url: String!) {
-    changeAvatar(url: $url) {
+export const UPDATE_MEDIA = gql`
+  mutation updateMedia($url: String!, $mediaType: String!) {
+    updateMedia(url: $url, mediaType: $mediaType) {
       ok
       errors {
         message
@@ -130,6 +130,7 @@ export const CHANGE_AVATAR = gql`
       result {
         username
         avatar
+        banner
       }
     }
   }

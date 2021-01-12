@@ -181,4 +181,5 @@ EMAIL_PAGE_DOMAIN = env("EMAIL_PAGE_DOMAIN")
 DJANGO_SETTINGS_MODULE = "core.settings"
 
 
-DEFAULT_USER_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSoYBRO4UZskSQQtUJZSZkrLpQiLgD-M3ccg&usqp=CAU"
+DEFAULT_USER_AVATAR = "https://res.cloudinary.com/riceev/image/upload/v1610414744/Birthdays/Admin/baby1_yunb94.jpg"
+DEFAULT_USER_BANNER = "https://res.cloudinary.com/riceev/image/upload/v1610414643/Birthdays/Admin/landscape_unylg7.jpg"

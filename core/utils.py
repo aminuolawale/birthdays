@@ -8,3 +8,10 @@ def generate_token(length=24):
 
 def build_confirmation_link(token):
     return f"{settings.EMAIL_PAGE_DOMAIN}/verify_account/{token}"
+
+
+def translate(val, table):
+    for key, value in table.items():
+        if val == key:
+            return value
+    return val

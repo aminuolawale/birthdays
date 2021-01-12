@@ -22,6 +22,7 @@ class UserType(DjangoObjectType):
             "email",
             "phone",
             "avatar",
+            "banner",
             "address",
             "date_of_birth",
             "date_joined",

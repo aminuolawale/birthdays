@@ -18,6 +18,10 @@ class User(AbstractUser):
         max_length=255,
         default=settings.DEFAULT_USER_AVATAR,
     )
+    banner = models.URLField(
+        max_length=255,
+        default=settings.DEFAULT_USER_AVATAR,
+    )
     date_of_birth = models.DateTimeField(null=True)
     bio = models.TextField(null=True)
     verified = models.BooleanField(default=False)

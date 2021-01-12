@@ -10,6 +10,7 @@ from .models import UserToken
 from core.utils import generate_token
 from core.tasks import send_confirmation_email
 from datetime import datetime, timezone
+from core.utils import translate
 
 
 class CreateUser(graphene.Mutation):
@@ -136,11 +137,12 @@ class ResendVerification(graphene.Mutation):
         return ResendVerification(result=user, ok=True, errors=[])
 
 
-class ChangeAvatar(graphene.Mutation):
+class UpdateMedia(graphene.Mutation):
     """"""
 
     class Arguments:
         url = graphene.String(required=True)
+        media_type = graphene.String(required=True)
 
     result = graphene.Field(UserType)
     ok = graphene.Boolean()
@@ -148,7 +150,8 @@ class ChangeAvatar(graphene.Mutation):
 
     @classmethod
     @login_required
-    def mutate(cls, root, info, url):
+    def mutate(cls, root, info, url, media_type):
         """ """
-        user = get_user_model().objects.update_user(info.context.user.id, avatar=url)
+        media_data = {media_type: url}
+        user = get_user_model().objects.update_user(info.context.user.id, **media_data)
         return ResendVerification(result=user, ok=True, errors=[])

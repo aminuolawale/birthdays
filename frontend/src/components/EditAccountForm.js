@@ -4,7 +4,7 @@ import Motion from "./Motion";
 import { useForm } from "react-hook-form";
 import Button from "./Button";
 import useCloudinary from "../hooks/useCloudinary";
-import { ME, CHANGE_AVATAR } from "../graph-ql/schema";
+import { ME, UPDATE_MEDIA } from "../graph-ql/schema";
 import LoadSpinner from "./LoadSpinner";
 import { UPDATE_USER } from "../graph-ql/schema";
 import { useHistory } from "react-router-dom";
@@ -24,11 +24,11 @@ const EditAccountForm = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const history = useHistory();
 
-  const [changeAvatar] = useMutation(CHANGE_AVATAR, {
+  const [UpdateMedia] = useMutation(UPDATE_MEDIA, {
     onCompleted(data) {
-      const result = data.changeAvatar;
+      const result = data.updateMedia;
       if (result.ok) {
-        dispatch({ type: "CHANGE_AVATAR_SUCCESS", data: result.result.avatar });
+        dispatch({ type: "UPDATE_MEDIA_SUCCESS", data: result.result.avatar });
       }
     },
   });
@@ -49,11 +49,11 @@ const EditAccountForm = () => {
 
   useEffect(() => {
     if (secureUrl) {
-      changeAvatar({ variables: { url: secureUrl } });
+      UpdateMedia({ variables: { url: secureUrl, mediaType: "avatar" } });
       setUserAvatar(secureUrl);
       setImageUploading(false);
     }
-  }, [secureUrl, changeAvatar]);
+  }, [secureUrl, UpdateMedia]);
 
   const onSubmit = (payload) => {
     if (document.getElementById("dateOfBirth").type === "text") {
@@ -101,12 +101,22 @@ const EditAccountForm = () => {
         </div>
         <div className="accountForm__body">
           <div className="accountForm__body__image">
-            <img src={userAvatar ? userAvatar : userData.avatar}></img>
+            <label for="avatar">
+              <img
+                className="accountForm__body__image__img"
+                src={userAvatar ? userAvatar : userData.avatar}
+              ></img>
+            </label>
             <div className="accountForm__body__image__input">
               {imageUploading ? (
                 <img src={Loading}></img>
               ) : (
-                <input ref={register} name="avatar" type="file"></input>
+                <input
+                  ref={register}
+                  name="avatar"
+                  id="avatar"
+                  type="file"
+                ></input>
               )}
             </div>
           </div>

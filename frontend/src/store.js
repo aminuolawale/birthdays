@@ -31,7 +31,7 @@ export const StateProvider = ({ children }) => {
           verified: null,
         };
         return newState;
-      case "CHANGE_AVATAR_SUCCESS":
+      case "UPDATE_MEDIA_SUCCESS":
         localStorage.setItem("userThumb", action.data);
         newState = {
           ...state,

@@ -11,7 +11,6 @@ const VerificationPrompt = () => {
   });
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("i was clicked");
     resendVerification({});
   };
   return (

@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 
 const uploadUrl = process.env.REACT_APP_UPLOAD_URL;
 const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
-console.log("the uploadUrl", uploadUrl, uploadPreset);
-console.log(process.env);
 
 const useCloudinary = (file) => {
   const [secureUrl, setSecureUrl] = useState(null);
