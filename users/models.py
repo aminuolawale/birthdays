@@ -20,7 +20,7 @@ class User(AbstractUser):
     )
     banner = models.URLField(
         max_length=255,
-        default=settings.DEFAULT_USER_AVATAR,
+        default=settings.DEFAULT_USER_BANNER,
     )
     date_of_birth = models.DateTimeField(null=True)
     bio = models.TextField(null=True)
