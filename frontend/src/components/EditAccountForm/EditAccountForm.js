@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import Motion from "./Motion";
 import { useForm } from "react-hook-form";
-import Button from "./Button";
-import useCloudinary from "../hooks/useCloudinary";
-import { ME, UPDATE_MEDIA } from "../graph-ql/schema";
-import LoadSpinner from "./LoadSpinner";
-import { UPDATE_USER } from "../graph-ql/schema";
+import Button from "../Button/Button";
+import useCloudinary from "../../hooks/useCloudinary";
+import { ME, UPDATE_MEDIA } from "../../graph-ql/schema";
+import LoadSpinner from "../LoadSpinner";
+import { UPDATE_USER } from "../../graph-ql/schema";
 import { useHistory } from "react-router-dom";
-import { store } from "../store";
+import { store } from "../../store";
 import { format } from "date-fns";
-import Loading from "../img/loading1.gif";
+import Loading from "../../img/loading1.gif";
+import * as style from "./style";
 
 const EditAccountForm = () => {
   const { dispatch } = useContext(store);
@@ -88,27 +88,21 @@ const EditAccountForm = () => {
     return <LoadSpinner></LoadSpinner>;
   } else {
     return (
-      <Motion
-        elem="form"
-        duration=".25"
-        className="accountForm"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="accountForm__header">
-          <h2 className="accountForm__header__title">
+      <style.EditAccountForm duration=".25" onSubmit={handleSubmit(onSubmit)}>
+        <style.EditAccountFormHeader>
+          <h2>
             Edit <span className="mainHighlight">Profile</span>
           </h2>
-        </div>
-        <div className="accountForm__body">
-          <div className="accountForm__body__image">
-            <label for="avatar">
-              <img
-                className="accountForm__body__image__img"
+        </style.EditAccountFormHeader>
+        <style.EditAccountFormBody>
+          <style.EditAccountImageContainer>
+            <label htmlFor="avatar">
+              <style.EditAccountImage
                 src={userAvatar ? userAvatar : userData.avatar}
                 alt="avatar"
-              ></img>
+              ></style.EditAccountImage>
             </label>
-            <div className="accountForm__body__image__input">
+            <style.EditAccountImageInput>
               {imageUploading ? (
                 <img src={Loading} alt="avatar-loading"></img>
               ) : (
@@ -119,10 +113,10 @@ const EditAccountForm = () => {
                   type="file"
                 ></input>
               )}
-            </div>
-          </div>
-          <div className="form__body__fields">
-            <div className="accountForm__body__fields__fieldGroup">
+            </style.EditAccountImageInput>
+          </style.EditAccountImageContainer>
+          <style.EditAccountFormFields>
+            <style.EditAccountFormGroup>
               <input
                 id="firstName"
                 name="firstName"
@@ -139,8 +133,8 @@ const EditAccountForm = () => {
                 defaultValue={userData.lastName}
                 ref={register}
               ></input>
-            </div>
-            <div className="accountForm__body__fields__fieldGroup">
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
               <input
                 id="middleName"
                 name="middleName"
@@ -157,8 +151,8 @@ const EditAccountForm = () => {
                 defaultValue={userData.nickname}
                 ref={register}
               ></input>
-            </div>
-            <div className="accountForm__body__fields__fieldGroup accountForm__body__fields__fieldGroup--alt">
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
               <textarea
                 id="bio"
                 name="bio"
@@ -167,8 +161,8 @@ const EditAccountForm = () => {
                 defaultValue={userData.bio}
                 ref={register}
               ></textarea>
-            </div>
-            <div className="accountForm__body__fields__fieldGroup">
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
               <input
                 id="country"
                 name="country"
@@ -185,8 +179,8 @@ const EditAccountForm = () => {
                 defaultValue={userData.address ? userData.address.street : ""}
                 ref={register}
               ></input>
-            </div>
-            <div className="accountForm__body__fields__fieldGroup">
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
               <input
                 id="city"
                 name="city"
@@ -203,8 +197,8 @@ const EditAccountForm = () => {
                 defaultValue={userData.address ? userData.address.state : ""}
                 ref={register}
               ></input>
-            </div>
-            <div className="accountForm__body__fields__fieldGroup">
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
               <input
                 id="dateOfBirth"
                 name="dateOfBirth"
@@ -221,13 +215,15 @@ const EditAccountForm = () => {
                 onFocus={() => setDateFieldActive(true)}
                 ref={register}
               ></input>
-            </div>
+            </style.EditAccountFormGroup>
             <div>
-              <Button size="sm">Save Profile</Button>
+              <Button size="sm" expand={true}>
+                Save Profile
+              </Button>
             </div>
-          </div>
-        </div>
-      </Motion>
+          </style.EditAccountFormFields>
+        </style.EditAccountFormBody>
+      </style.EditAccountForm>
     );
   }
 };

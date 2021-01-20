@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import Motion from "./Motion";
 import { useHistory } from "react-router-dom";
-import { store } from "../store";
+import { store } from "../../store";
+import * as style from "./style";
 
 const Navbar = () => {
   const globalState = useContext(store);
@@ -16,55 +16,47 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar">
-      <div className="navbar__header">
+    <style.Nav className="navbar">
+      <style.NavHeader>
         <Link to="/">
-          <h1 className="navbar__header__text">Birthdays</h1>
+          <style.NavHeaderText>Birthdays</style.NavHeaderText>
         </Link>
-      </div>
-      <ul className="navbar__links">
+      </style.NavHeader>
+      <style.NavLinks>
         {globalState.state.loggedIn ? (
           <Link to="/account">
-            <img
+            <style.NavImage
               onMouseEnter={() => setDropdownActive(true)}
               onMouseLeave={() => setDropdownActive(false)}
-              className="navbar__links__image"
               src={globalState.state.userThumb}
-              // src={userThumb}
-            ></img>
+            ></style.NavImage>
           </Link>
         ) : (
           <div>
-            <Link to="/login" className="navbar__links__item">
-              Log in
-            </Link>
-            <Link to="/signup" className="navbar__links__item">
-              Sign up
-            </Link>
+            <style.NavItem to="/login">Log in</style.NavItem>
+            <style.NavItem to="/signup">Sign up</style.NavItem>
           </div>
         )}
-      </ul>
+      </style.NavLinks>
       {dropdownActive && (
-        <Motion
-          elem="div"
+        <style.NavDropdown
           duration=".5"
-          className="navbar__dropdown"
           onMouseEnter={() => setDropdownActive(true)}
           onMouseLeave={() => setDropdownActive(false)}
         >
-          <div className="navbar__dropdown__list">
+          <style.NavDropdownList>
             <div>
-              <Link className="navbar__dropdown__list__link" to="/account">
+              <style.NavDropdownLink to="/account">
                 <p>Profile</p>
-              </Link>
+              </style.NavDropdownLink>
             </div>
             <div onClick={logout}>
               <p>Logout</p>
             </div>
-          </div>
-        </Motion>
+          </style.NavDropdownList>
+        </style.NavDropdown>
       )}
-    </div>
+    </style.Nav>
   );
 };
 

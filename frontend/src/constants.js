@@ -1,0 +1,17 @@
+export const styling = {
+  MAIN_DARK: "#454545",
+  MAIN_GRAY: "#ababab",
+  MAIN_CREAM: "#FDF9EF",
+  MAIN_WINE: "#AE1163",
+  MUTED_WINE: "#863B62",
+  MAIN_ERROR: "#f2006d",
+  MAIN_WHITE: "#ffffff",
+  LATO_FONT: "'Lato', sans-serif",
+  XLG_FONT: "64px",
+  LG_FONT: "48px",
+  MD_FONT: "36px",
+  SMD_FONT: "28px",
+  SM_FONT: "24px",
+  XSM_FONT: "16px",
+  MIN_VIEW_HEIGHT: "80vh",
+};

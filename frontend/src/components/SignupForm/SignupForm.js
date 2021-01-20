@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
+import Button from "../Button/Button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
-import { SIGNUP } from "../graph-ql/schema";
+import { SIGNUP } from "../../graph-ql/schema";
 import { Redirect } from "react-router-dom";
+import PasswordToggler from "../PasswordToggler";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import Motion from "../components/Motion";
+import * as style from "./style";
 
 const SignupForm = () => {
   const { register, handleSubmit } = useForm();
@@ -44,26 +45,19 @@ const SignupForm = () => {
     return <Redirect to="/login"></Redirect>;
   }
   return (
-    <Motion
-      elem="form"
-      duration=".5"
-      onSubmit={handleSubmit(onSubmit)}
-      className="form"
-    >
-      <div className="form__header">
-        <h2 className="form__header__title">
+    <style.SignupForm onSubmit={handleSubmit(onSubmit)}>
+      <style.SignupFormHeader>
+        <h2>
           Welcome to <span className="mainHighlight">Birthdays</span>
         </h2>
-      </div>
-      <div className="form__errors">
+      </style.SignupFormHeader>
+      <style.SignupFormErrors>
         {errors.map((error) => (
-          <p key={error} className="form__errors__item">
-            {error.message}
-          </p>
+          <p key={error}>{error.message}</p>
         ))}
-      </div>
-      <div className="form__body">
-        <div className="form__body__fieldGroup">
+      </style.SignupFormErrors>
+      <style.SignupFormBody>
+        <style.SignupFormFieldGroup>
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -73,8 +67,8 @@ const SignupForm = () => {
             required
             ref={register}
           ></input>
-        </div>
-        <div className="form__body__fieldGroup">
+        </style.SignupFormFieldGroup>
+        <style.SignupFormFieldGroup>
           <label htmlFor="firstName">First Name</label>
           <input
             id="firstName"
@@ -84,8 +78,8 @@ const SignupForm = () => {
             required
             ref={register}
           ></input>
-        </div>
-        <div className="form__body__fieldGroup">
+        </style.SignupFormFieldGroup>
+        <style.SignupFormFieldGroup>
           <label htmlFor="lastName">Last Name</label>
           <input
             id="lastName"
@@ -95,8 +89,8 @@ const SignupForm = () => {
             required
             ref={register}
           ></input>
-        </div>
-        <div className="form__body__fieldGroup">
+        </style.SignupFormFieldGroup>
+        <style.SignupFormFieldGroup>
           <label htmlFor="email">Password</label>
           <input
             id="password"
@@ -106,31 +100,21 @@ const SignupForm = () => {
             required
             ref={register}
           ></input>
-          <div
-            className="form__body__passwordToggler form__body__passwordToggler--signup"
-            onClick={togglePasswordVisibility}
-          >
-            {passwordVisibility ? (
-              <FaRegEye
-                className="form__body__passwordToggler__icon"
-                size="20px"
-              ></FaRegEye>
-            ) : (
-              <FaRegEyeSlash
-                className="form__body__passwordToggler__icon"
-                size="20px"
-              ></FaRegEyeSlash>
-            )}
-          </div>
-        </div>
+          <style.TogglerContainer onClick={togglePasswordVisibility}>
+            <PasswordToggler
+              signup={true}
+              visible={passwordVisibility}
+            ></PasswordToggler>
+          </style.TogglerContainer>
+        </style.SignupFormFieldGroup>
 
-        <div className="form__body__button">
+        <style.SignupFormButton>
           <Button size="sm" expand={true}>
             Signup
           </Button>
-        </div>
-      </div>
-    </Motion>
+        </style.SignupFormButton>
+      </style.SignupFormBody>
+    </style.SignupForm>
   );
 };
 
