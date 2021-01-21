@@ -1,11 +1,13 @@
 import React, { useEffect, useContext, useState } from "react";
-import LoadSpinner from "../components/LoadSpinner";
-import LoginForm from "../components/LoginForm";
-import { store } from "../store";
+import LoadSpinner from "../../components/LoadSpinner";
+import SignupForm from "../../components/SignupForm/SignupForm";
+import { store } from "../../store";
+import * as style from "./style";
 
-const Login = () => {
+const Signup = () => {
   const { dispatch } = useContext(store);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     dispatch({ type: "LOGOUT_SUCCESS" });
     setLoading(false);
@@ -14,10 +16,10 @@ const Login = () => {
     return <LoadSpinner></LoadSpinner>;
   }
   return (
-    <div className="login">
-      <LoginForm></LoginForm>
-    </div>
+    <style.Signup>
+      <SignupForm></SignupForm>
+    </style.Signup>
   );
 };
 
-export default Login;
+export default Signup;

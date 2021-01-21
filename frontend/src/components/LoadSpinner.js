@@ -1,6 +1,6 @@
 import React from "react";
 import LoadingScreen from "react-loading-screen";
-import Birthdays from "../img/Birthdays.png";
+import { birthdaysLogo } from "../img";
 
 const LoadSpinner = () => {
   return (
@@ -9,8 +9,10 @@ const LoadSpinner = () => {
       bgColor="#FDF9EF"
       spinnerColor="#AE1163"
       textColor="#676767"
-      logoSrc={Birthdays}
-    ></LoadingScreen>
+      logoSrc={birthdaysLogo}
+    >
+      Birthdays
+    </LoadingScreen>
   );
 };
 

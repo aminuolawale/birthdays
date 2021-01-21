@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { VERIFY_USER } from "../graph-ql/schema";
+import { VERIFY_USER } from "../../graph-ql/schema";
+import * as style from "./style";
 
 const VerifyAccount = (props) => {
   const token = props.match.params.token;
@@ -23,7 +24,11 @@ const VerifyAccount = (props) => {
   if (success) {
     return <Redirect to="/login"></Redirect>;
   }
-  return <div> Please wait while we verify your account</div>;
+  return (
+    <style.VerifyAccount>
+      Please wait while we verify your account
+    </style.VerifyAccount>
+  );
 };
 
 export default VerifyAccount;

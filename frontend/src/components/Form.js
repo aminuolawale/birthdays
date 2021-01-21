@@ -18,7 +18,7 @@ export const FormHeader = styled.div`
 export const FormErrors = styled.div`
   height: 30px;
   color: ${styling.MAIN_ERROR};
-  font-size: ${styling.SM_FONT};
+  font-size: ${styling.XSM_FONT};
   text-align: center;
 `;
 

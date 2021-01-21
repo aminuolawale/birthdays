@@ -9,7 +9,7 @@ import { UPDATE_USER } from "../../graph-ql/schema";
 import { useHistory } from "react-router-dom";
 import { store } from "../../store";
 import { format } from "date-fns";
-import Loading from "../../img/loading1.gif";
+import { levelLoading } from "../../img";
 import * as style from "./style";
 
 const EditAccountForm = () => {
@@ -104,7 +104,7 @@ const EditAccountForm = () => {
             </label>
             <style.EditAccountImageInput>
               {imageUploading ? (
-                <img src={Loading} alt="avatar-loading"></img>
+                <img src={levelLoading} alt="avatar-loading"></img>
               ) : (
                 <input
                   ref={register}
