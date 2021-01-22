@@ -39,22 +39,23 @@ const Navbar = () => {
         )}
       </style.NavLinks>
       {dropdownActive && (
-        <style.NavDropdown
-          duration=".5"
+        <style.NavDropdownContainer
           onMouseEnter={() => setDropdownActive(true)}
           onMouseLeave={() => setDropdownActive(false)}
         >
-          <style.NavDropdownList>
-            <div>
-              <style.NavDropdownLink to="/account">
-                <p>Profile</p>
-              </style.NavDropdownLink>
-            </div>
-            <div onClick={logout}>
-              <p>Logout</p>
-            </div>
-          </style.NavDropdownList>
-        </style.NavDropdown>
+          <style.NavDropdown>
+            <style.NavDropdownList>
+              <div>
+                <style.NavDropdownLink to="/account">
+                  <p>Profile</p>
+                </style.NavDropdownLink>
+              </div>
+              <div onClick={logout}>
+                <p>Logout</p>
+              </div>
+            </style.NavDropdownList>
+          </style.NavDropdown>
+        </style.NavDropdownContainer>
       )}
     </style.Nav>
   );

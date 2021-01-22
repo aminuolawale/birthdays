@@ -66,7 +66,7 @@ const EditAccountForm = () => {
       nickname: payload.nickname,
       bio: payload.bio,
       dateOfBirth: payload.dateOfBirth,
-      phone: "oifdja",
+      phone: payload.phone,
       address: {
         street: payload.street,
         city: payload.city,
@@ -149,6 +149,16 @@ const EditAccountForm = () => {
                 type="text"
                 placeholder="Nickname"
                 defaultValue={userData.nickname}
+                ref={register}
+              ></input>
+            </style.EditAccountFormGroup>
+            <style.EditAccountFormGroup>
+              <input
+                id="phone"
+                name="phone"
+                type="text"
+                placeholder="Phone Number"
+                defaultValue={userData.phone}
                 ref={register}
               ></input>
             </style.EditAccountFormGroup>

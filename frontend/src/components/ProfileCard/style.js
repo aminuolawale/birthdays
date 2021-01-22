@@ -35,7 +35,7 @@ export const CardItems = styled.div`
 export const CardSub = styled.div`
   margin-top: 20px;
   & > p {
-    font-size: ${styling.SM_FONT};
+    font-size: ${styling.XSM_FONT};
   }
 `;
 

@@ -90,6 +90,7 @@ export const ME = gql`
         middleName
         fullName
         nickname
+        phone
         bio
         dateOfBirth
         email

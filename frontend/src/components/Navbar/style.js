@@ -35,11 +35,15 @@ export const NavItem = styled(Link)`
   margin: 0 20px;
 `;
 
-export const NavDropdown = styled.div`
-  background: ${styling.MAIN_WHITE};
+export const NavDropdownContainer = styled.div`
   position: absolute;
   top: 50px;
   right: 160px;
+  padding-top: 50px;
+`;
+
+export const NavDropdown = styled.div`
+  background: ${styling.MAIN_WHITE};
   font-size: ${styling.XSM_FONT};
   width: 200px;
   padding: 20px 0;
